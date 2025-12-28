@@ -151,9 +151,6 @@ export function Navbar() {
             </>
           ) : (
             <>
-              <Button variant="ghost" size="icon" className="sm:hidden">
-                <Search className="h-5 w-5" />
-              </Button>
               <Button
                 variant="outline"
                 className="rounded-full gap-2 text-primary border-border/60 hover:bg-primary/5"

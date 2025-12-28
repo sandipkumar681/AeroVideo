@@ -39,7 +39,12 @@ export function Sidebar({ className, onLinkClick }: SidebarProps) {
   ];
 
   return (
-    <div className={cn("pb-12 h-full border-r bg-background", className)}>
+    <div
+      className={cn(
+        "pb-12 h-full border-r bg-background text-foreground",
+        className
+      )}
+    >
       <ScrollArea className="h-full py-4">
         {/* Main Section */}
         <div className="px-3 py-2">

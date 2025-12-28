@@ -10,6 +10,7 @@ import {
   Loader2,
   Heart,
   User,
+  Share2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -116,6 +117,11 @@ export function VideoInfo({ video }: VideoInfoProps) {
     }
   };
 
+  const handleShare = () => {
+    navigator.clipboard.writeText(window.location.href);
+    toast.success("Link copied to clipboard");
+  };
+
   const formatViews = (views: number) => {
     if (views >= 1000000) return `${(views / 1000000).toFixed(1)}M`;
     if (views >= 1000) return `${(views / 1000).toFixed(1)}K`;
@@ -149,8 +155,8 @@ export function VideoInfo({ video }: VideoInfoProps) {
 
       {/* Owner Info and Subscription Button */}
       {isPopulatedOwner(video.owner) && (
-        <div className="flex items-center justify-between gap-3 py-4 border-y border-border">
-          <div className="flex items-center gap-3">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 py-4 border-y border-border">
+          <div className="flex items-center gap-3 w-full md:w-auto">
             {/* Avatar */}
             <Link
               href={`/channel/${video.owner.userName}`}
@@ -170,34 +176,48 @@ export function VideoInfo({ video }: VideoInfoProps) {
             </Link>
 
             {/* Name and Subscriber Count */}
-            <div>
+            <div className="flex-1 min-w-0">
               <Link
                 href={`/channel/${video.owner.userName}`}
                 className="block hover:text-primary transition-colors"
               >
-                <p className="font-bold text-foreground text-lg leading-tight">
+                <p className="font-bold text-foreground text-lg leading-tight truncate">
                   {video.owner.fullName || video.owner.userName}
                 </p>
               </Link>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Link
-                  href={`/channel/${video.owner.userName}`}
-                  className="hover:text-primary transition-colors"
-                >
-                  @{video.owner.userName}
-                </Link>
-                <span>•</span>
                 <span>{formatSubscribers(subscriberCount)} subscribers</span>
               </div>
             </div>
+
+            {/* Subscribe Button (Visible here on all screens to keep grouping logic consistent with "under owner details") */}
+            <Button
+              variant={isSubscribed ? "secondary" : "default"}
+              className={cn(
+                "rounded-full px-4 sm:px-6 font-semibold transition-all shrink-0 cursor-pointer ml-auto md:ml-0",
+                !isSubscribed &&
+                  "bg-foreground text-background hover:bg-foreground/90"
+              )}
+              onClick={handleToggleSubscription}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? (
+                <Loader2 className="h-4 w-4 animate-spin mr-2" />
+              ) : isSubscribed ? (
+                <BellOff className="h-4 w-4 mr-2" />
+              ) : (
+                <Bell className="h-4 w-4 mr-2" />
+              )}
+              {isSubscribed ? "Unsubscribe" : "Subscribe"}
+            </Button>
           </div>
 
-          {/* Subscription Button */}
-          <div className="flex items-center gap-3">
+          {/* Action Buttons (Like, Share) */}
+          <div className="flex items-center gap-3 overflow-x-auto pb-2 md:pb-0 no-scrollbar w-full md:w-auto">
             <Button
               variant="secondary"
               className={cn(
-                "rounded-full px-5 font-semibold transition-all shrink-0 flex items-center gap-2 cursor-pointer",
+                "rounded-full px-5 font-semibold transition-all shrink-0 flex items-center gap-2 cursor-pointer flex-1 md:flex-none justify-center md:justify-start",
                 isLiked &&
                   "text-primary bg-primary/10 border-primary/20 hover:bg-primary/20"
               )}
@@ -212,28 +232,14 @@ export function VideoInfo({ video }: VideoInfoProps) {
               <span className="min-w-[1ch]">{formatLikes(likesCount)}</span>
             </Button>
 
-            {/* Subscribe Button */}
-            {
-              <Button
-                variant={isSubscribed ? "secondary" : "default"}
-                className={cn(
-                  "rounded-full px-6 font-semibold transition-all shrink-0 cursor-pointer",
-                  !isSubscribed &&
-                    "bg-foreground text-background hover:bg-foreground/90"
-                )}
-                onClick={handleToggleSubscription}
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? (
-                  <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                ) : isSubscribed ? (
-                  <BellOff className="h-4 w-4 mr-2" />
-                ) : (
-                  <Bell className="h-4 w-4 mr-2" />
-                )}
-                {isSubscribed ? "Unsubscribe" : "Subscribe"}
-              </Button>
-            }
+            <Button
+              variant="secondary"
+              className="rounded-full px-5 font-semibold transition-all shrink-0 flex items-center gap-2 cursor-pointer flex-1 md:flex-none justify-center md:justify-start"
+              onClick={handleShare}
+            >
+              <Share2 className="h-4 w-4" />
+              <span>Share</span>
+            </Button>
           </div>
         </div>
       )}
@@ -249,39 +255,40 @@ export function VideoInfo({ video }: VideoInfoProps) {
           {video.description}
         </div>
 
-        {video.description && video.description.length > 150 && (
+        {(video.description.length > 100 ||
+          (video.tag && video.tag.length > 0)) && (
           <button
             onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
             className="flex items-center gap-1 mt-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
           >
             {isDescriptionExpanded ? (
               <>
-                <span>Show less</span>
+                <span>Read less</span>
                 <ChevronUp className="h-4 w-4" />
               </>
             ) : (
               <>
-                <span>Show more</span>
+                <span>Read more</span>
                 <ChevronDown className="h-4 w-4" />
               </>
             )}
           </button>
         )}
-      </div>
 
-      {/* Tags */}
-      {video.tag && video.tag.length > 0 && (
-        <div className="flex flex-wrap gap-2">
-          {video.tag.map((tag: string, index: number) => (
-            <span
-              key={index}
-              className="px-3 py-1 bg-secondary text-secondary-foreground text-xs font-medium rounded-full"
-            >
-              #{tag}
-            </span>
-          ))}
-        </div>
-      )}
+        {/* Tags */}
+        {isDescriptionExpanded && video.tag && video.tag.length > 0 && (
+          <div className="flex flex-wrap gap-2 mt-4">
+            {video.tag.map((tag: string, index: number) => (
+              <span
+                key={index}
+                className="px-3 py-1 bg-secondary text-secondary-foreground text-xs font-medium rounded-full"
+              >
+                #{tag}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

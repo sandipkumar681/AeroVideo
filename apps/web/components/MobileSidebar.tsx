@@ -17,7 +17,10 @@ export function MobileSidebar() {
           <Menu className="h-6 w-6" />
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="p-0 flex flex-col w-72">
+      <SheetContent
+        side="left"
+        className="p-0 flex flex-col w-72 text-foreground"
+      >
         <div className="flex items-center gap-4 px-4 h-16 border-b shrink-0">
           <Link
             href="/"
