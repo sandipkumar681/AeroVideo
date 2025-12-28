@@ -10,6 +10,7 @@ import { Loader2 } from "lucide-react";
 import { useAppSelector } from "@/redux-toolkit/hooks";
 import { UploadVideoBody } from "@servicely/types";
 import { uploadVideoSchema } from "@servicely/schemas";
+import { BACKEND_URL } from "@/constant";
 
 export default function UploadVideoForm() {
   const [formData, setFormData] = useState<UploadVideoBody>({
@@ -86,14 +87,11 @@ export default function UploadVideoForm() {
       data.append("tag", formData.tag || "");
       data.append("videoFile", videoFile);
       data.append("thumbnail", thumbnail);
-      const response = await fetch(
-        "http://localhost:8080/api/v1/videos/upload-video",
-        {
-          method: "POST",
-          body: data,
-          credentials: "include",
-        }
-      );
+      const response = await fetch(`${BACKEND_URL}/videos/upload-video`, {
+        method: "POST",
+        body: data,
+        credentials: "include",
+      });
 
       const result = await response.json();
 

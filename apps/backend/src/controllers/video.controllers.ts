@@ -66,6 +66,11 @@ const uploadVideo = AsyncHandler(
     };
 
     const videoLocalPath: string | null = files?.videoFile?.[0]?.path || null;
+    console.log("DEBUG: process.cwd():", process.cwd());
+    console.log("DEBUG: videoLocalPath:", videoLocalPath);
+    if (videoLocalPath) {
+      console.log("DEBUG: Exists?", require("fs").existsSync(videoLocalPath));
+    }
     const thumbnailLocalPath: string | null =
       files?.thumbnail?.[0]?.path || null;
 
