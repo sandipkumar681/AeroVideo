@@ -1,6 +1,6 @@
 import { ApiError } from "../utils/apiError";
 import { Video } from "../models/video.models";
-import { IVideo, IVideoDocument } from "@servicely/types";
+import { IVideo, IVideoDocument } from "@aerovideo/types";
 import mongoose from "mongoose";
 import { getSignedUrl } from "./upload.services";
 import { sanitizeVideo } from "../helpers/sanitezResponse.helpers";

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { minLengthOfOtp, maxLengthOfOtp } from "../constants";
-import { IOtp, IOtpModel } from "@servicely/types";
+import { IOtp, IOtpModel } from "@aerovideo/types";
 import { ENV_VALUE } from "../utils/env";
 
 const otpSchema = new mongoose.Schema<IOtp>(

@@ -5,7 +5,14 @@ import { useState } from "react";
 import { Menu, Video } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Sidebar } from "@/components/Sidebar";
+import dynamic from "next/dynamic";
+
+const Sidebar = dynamic(
+  () => import("@/components/Sidebar").then((mod) => mod.Sidebar),
+  {
+    loading: () => <div className="w-full h-full bg-background" />,
+  }
+);
 
 export function MobileSidebar() {
   const [open, setOpen] = useState(false);

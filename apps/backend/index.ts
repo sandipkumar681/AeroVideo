@@ -12,7 +12,7 @@ import logger from "./src/utils/logger";
 connectDB()
   .then(() => {
     app.listen(ENV_VALUE.PORT || 4000, () =>
-      logger.info(`✅ Servicely API listening on ${ENV_VALUE.PORT}`)
+      logger.info(`✅ AeroVideo API listening on ${ENV_VALUE.PORT}`)
     );
 
     startCronJobs();

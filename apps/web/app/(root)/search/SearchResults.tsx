@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { IVideo } from "@servicely/types";
+import { IVideo } from "@aerovideo/types";
 import { VideoCard } from "@/components/ui/VideoCard";
 import { searchVideos } from "@/lib/api/videoApi";
 

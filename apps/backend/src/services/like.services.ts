@@ -1,6 +1,6 @@
 import { ApiError } from "../utils/apiError";
 import { Like } from "../models/like.models";
-import { ILike, ILikeDocument } from "@servicely/types";
+import { ILike, ILikeDocument } from "@aerovideo/types";
 import mongoose from "mongoose";
 
 // =============================================

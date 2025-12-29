@@ -10,9 +10,9 @@
     "plugins": [{ "name": "next" }],
     "baseUrl": ".",
     "paths": {
-      "@servicely/types": ["../../packages/types/src/index.ts"],
-      "@servicely/utils": ["../../packages/utils/src/index.ts"],
-      "@servicely/schemas": ["../../packages/schemas/src/index.ts"],
+      "@aerovideo/types": ["../../packages/types/src/index.ts"],
+      "@aerovideo/utils": ["../../packages/utils/src/index.ts"],
+      "@aerovideo/schemas": ["../../packages/schemas/src/index.ts"],
       "@/*": ["./*"]
     }
   },

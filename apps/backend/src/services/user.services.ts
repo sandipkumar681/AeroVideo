@@ -1,6 +1,6 @@
 import { ApiError } from "../utils/apiError";
 import { User } from "../models/user.models";
-import { IUser, IUserDocument } from "@servicely/types";
+import { IUser, IUserDocument } from "@aerovideo/types";
 import mongoose from "mongoose";
 
 export const authFindUser = async (

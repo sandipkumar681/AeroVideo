@@ -4,8 +4,8 @@
     /* --- Path mapping --- */
     "baseUrl": ".",
     "paths": {
-      "@servicely/schemas": ["../../packages/schemas/src"],
-      "@servicely/types": ["../../packages/types/src"]
+      "@aerovideo/schemas": ["../../packages/schemas/src"],
+      "@aerovideo/types": ["../../packages/types/src"]
     },
 
     /* --- Module + Target --- */

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { IVideo } from "@servicely/types";
+import { IVideo } from "@aerovideo/types";
 import {
   Calendar,
   Eye,

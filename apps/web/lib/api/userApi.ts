@@ -4,7 +4,7 @@ import {
   RegisterBody,
   changeAccountDetailsBody,
   changeCurrentPasswordBody,
-} from "@servicely/types";
+} from "@aerovideo/types";
 
 /**
  * Handle API response errors

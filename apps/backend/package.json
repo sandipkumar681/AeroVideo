@@ -1,5 +1,5 @@
 {
-  "name": "@servicely/backend",
+  "name": "@aerovideo/backend",
   "version": "1.0.0",
   "description": "",
   "main": "index.ts",
@@ -13,8 +13,8 @@
   "license": "ISC",
   "packageManager": "pnpm@10.20.0",
   "dependencies": {
-    "@servicely/schemas": "workspace:*",
-    "@servicely/types": "workspace:*",
+    "@aerovideo/schemas": "workspace:*",
+    "@aerovideo/types": "workspace:*",
     "backblaze-b2": "^1.7.1",
     "bcryptjs": "^3.0.3",
     "cloudinary": "^2.8.0",

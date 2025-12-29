@@ -2,7 +2,7 @@ import {
   IUserDocument,
   IVideoDocument,
   ICommentDocument,
-} from "@servicely/types";
+} from "@aerovideo/types";
 
 export const sanitizeUser = (
   user: IUserDocument,

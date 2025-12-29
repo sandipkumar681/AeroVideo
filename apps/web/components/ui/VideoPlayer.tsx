@@ -25,6 +25,7 @@ export function VideoPlayer({ videoUrl, thumbnailUrl }: VideoPlayerProps) {
   const [volume, setVolume] = useState(1);
   const [isMuted, setIsMuted] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [shouldRotate, setShouldRotate] = useState(false);
   const [showControls, setShowControls] = useState(true);
 
   useEffect(() => {
@@ -106,12 +107,34 @@ export function VideoPlayer({ videoUrl, thumbnailUrl }: VideoPlayerProps) {
 
     try {
       if (!document.fullscreenElement) {
-        await container.requestFullscreen();
+        // Try standard fullscreen API
+        await container.requestFullscreen().catch((err) => {
+          // Fallback for iOS/unsupported devices
+          console.warn("Fullscreen API failed, using CSS fallback:", err);
+          setIsFullscreen(true);
+        });
+
+        // Check for portrait mode to trigger rotation
+        if (window.innerWidth < window.innerHeight) {
+          setShouldRotate(true);
+        }
       } else {
         await document.exitFullscreen();
+        setIsFullscreen(false); // Ensure state sync
+        setShouldRotate(false);
       }
     } catch (error) {
       console.error("Error toggling fullscreen:", error);
+      // Fallback
+      if (!isFullscreen) {
+        setIsFullscreen(true);
+        if (window.innerWidth < window.innerHeight) {
+          setShouldRotate(true);
+        }
+      } else {
+        setIsFullscreen(false);
+        setShouldRotate(false);
+      }
     }
   };
 
@@ -124,7 +147,13 @@ export function VideoPlayer({ videoUrl, thumbnailUrl }: VideoPlayerProps) {
   return (
     <div
       ref={containerRef}
-      className="relative w-full bg-black rounded-xl overflow-hidden group"
+      className={cn(
+        "relative w-full bg-black rounded-xl overflow-hidden group",
+        isFullscreen &&
+          "fixed inset-0 z-50 h-screen w-screen rounded-none flex items-center justify-center bg-black",
+        shouldRotate &&
+          "w-[100vh] h-[100vw] rotate-90 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+      )}
       onMouseEnter={() => setShowControls(true)}
       onMouseLeave={() => setShowControls(isPlaying ? false : true)}
     >

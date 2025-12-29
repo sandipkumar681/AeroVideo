@@ -1,6 +1,6 @@
 import { ApiError } from "../utils/apiError";
 import { Comment } from "../models/comment.models";
-import { IComment, ICommentDocument } from "@servicely/types";
+import { IComment, ICommentDocument } from "@aerovideo/types";
 import mongoose from "mongoose";
 
 // =============================================

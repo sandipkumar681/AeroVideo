@@ -1,6 +1,6 @@
 "use client";
 
-import { IVideo } from "@servicely/types";
+import { IVideo } from "@aerovideo/types";
 import { cn } from "@/lib/utils";
 import { Play } from "lucide-react";
 import React from "react";
@@ -57,6 +57,8 @@ export function VideoCard({ video, className }: VideoCardProps) {
             <img
               src={video.thumbnail}
               alt={video.title}
+              loading="lazy"
+              decoding="async"
               className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
             />
           ) : (
@@ -97,6 +99,8 @@ export function VideoCard({ video, className }: VideoCardProps) {
                   <img
                     src={video.owner.avatar}
                     alt={video.owner.userName}
+                    loading="lazy"
+                    decoding="async"
                     className="h-full w-full object-cover"
                   />
                 ) : (

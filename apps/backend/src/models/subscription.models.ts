@@ -1,5 +1,5 @@
 import mongoose, { model } from "mongoose";
-import { ISubscriptionDocument, ISubscriptionModel } from "@servicely/types";
+import { ISubscriptionDocument, ISubscriptionModel } from "@aerovideo/types";
 
 // -----------------------------
 // 1. Schema

@@ -1,6 +1,6 @@
 import { BACKEND_URL } from "@/constant";
 import { handleResponse } from "./videoApi";
-import { IVideo } from "@servicely/types";
+import { IVideo } from "@aerovideo/types";
 
 export interface LikedVideo {
   _id: string;

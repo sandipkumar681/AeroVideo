@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { IVideo } from "@servicely/types";
+import { IVideo } from "@aerovideo/types";
 import { Play } from "lucide-react";
 import Link from "next/link";
 

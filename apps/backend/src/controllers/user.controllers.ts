@@ -7,7 +7,7 @@ import {
   LoginBody,
   RegisterBody,
   resetPasswordBody,
-} from "@servicely/types";
+} from "@aerovideo/types";
 import { removeFile } from "../utils/removeFile";
 import {
   changeAccountDetailsSchema,
@@ -15,7 +15,7 @@ import {
   loginSchema,
   registerSchema,
   resetPasswordSchema,
-} from "@servicely/schemas";
+} from "@aerovideo/schemas";
 import { verifyOtp } from "../services/otp.services";
 import {
   authFindUser,

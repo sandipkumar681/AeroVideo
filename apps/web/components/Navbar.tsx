@@ -28,10 +28,6 @@ export function Navbar() {
     (state) => state.logInReducer
   );
 
-  useEffect(() => {
-    dispatch(checkAuth());
-  }, [dispatch]);
-
   const handleLogout = async () => {
     await dispatch(logout());
   };

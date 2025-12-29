@@ -1,4 +1,4 @@
-import { IUserDocument } from "@servicely/types";
+import { IUserDocument } from "@aerovideo/types";
 import { Request } from "express";
 import { JwtPayload } from "jsonwebtoken";
 

@@ -16,8 +16,8 @@ import {
 import { Loader2, Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 import { loginUser } from "@/lib/api/userApi";
-import { LoginBody } from "@servicely/types";
-import { loginSchema } from "@servicely/schemas";
+import { LoginBody } from "@aerovideo/types";
+import { loginSchema } from "@aerovideo/schemas";
 import { useAppSelector } from "@/redux-toolkit/hooks";
 
 export default function LoginForm() {

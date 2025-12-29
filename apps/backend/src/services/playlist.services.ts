@@ -1,6 +1,6 @@
 import { ApiError } from "../utils/apiError";
 import { Playlist } from "../models/playlist.models";
-import { IPlaylist, IPlaylistDocument } from "@servicely/types";
+import { IPlaylist, IPlaylistDocument } from "@aerovideo/types";
 import mongoose from "mongoose";
 
 // =============================================

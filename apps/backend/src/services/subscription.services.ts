@@ -1,6 +1,6 @@
 import { ApiError } from "../utils/apiError";
 import { Subscription } from "../models/subscription.models";
-import { ISubscription, ISubscriptionDocument } from "@servicely/types";
+import { ISubscription, ISubscriptionDocument } from "@aerovideo/types";
 import mongoose from "mongoose";
 
 // =============================================

@@ -8,13 +8,13 @@ import {
   UpdateVideoBody,
   SearchVideoQuery,
   PaginationQuery,
-} from "@servicely/types";
+} from "@aerovideo/types";
 import {
   uploadVideoSchema,
   updateVideoSchema,
   searchVideoSchema,
   paginationSchema,
-} from "@servicely/schemas";
+} from "@aerovideo/schemas";
 import {
   createVideo,
   findVideoById,

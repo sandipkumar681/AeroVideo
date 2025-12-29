@@ -1,4 +1,4 @@
-import { IUserDocument } from "@servicely/types";
+import { IUserDocument } from "@aerovideo/types";
 import { ApiError } from "../utils/apiError";
 
 export const generateAccessAndRefreshToken = async (

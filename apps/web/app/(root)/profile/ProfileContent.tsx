@@ -19,7 +19,7 @@ import { toast } from "sonner";
 import {
   changeAccountDetailsBody,
   changeCurrentPasswordBody,
-} from "@servicely/types";
+} from "@aerovideo/types";
 import {
   updateAvatar,
   updateCoverImage,
@@ -31,7 +31,7 @@ import { useRouter } from "next/navigation";
 import {
   changeCurrentPasswordSchema,
   changeAccountDetailsSchema,
-} from "@servicely/schemas";
+} from "@aerovideo/schemas";
 
 export default function ProfileContent() {
   const dispatch = useAppDispatch();

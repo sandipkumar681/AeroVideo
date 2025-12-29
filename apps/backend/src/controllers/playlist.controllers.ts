@@ -2,7 +2,7 @@ import { AsyncHandler } from "../utils/asyncHandler";
 import { ApiError } from "../utils/apiError";
 import { ApiResponse } from "../utils/apiResponse";
 import { AuthenticatedRequest } from "../types/other.types";
-import { createPlaylistSchema, updatePlaylistSchema } from "@servicely/schemas";
+import { createPlaylistSchema, updatePlaylistSchema } from "@aerovideo/schemas";
 import {
   createPlaylist,
   findPlaylistById,

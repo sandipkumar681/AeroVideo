@@ -1,7 +1,12 @@
 "use client";
 
 import { Navbar } from "@/components/Navbar";
-import { Sidebar } from "@/components/Sidebar";
+import dynamic from "next/dynamic";
+
+const Sidebar = dynamic(
+  () => import("@/components/Sidebar").then((mod) => mod.Sidebar),
+  { ssr: false } // Sidebar is client-side implementation dependent on Redux state
+);
 import { useAppSelector } from "@/redux-toolkit/hooks";
 
 export default function RootLayout({

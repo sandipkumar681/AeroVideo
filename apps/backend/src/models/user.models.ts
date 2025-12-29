@@ -6,11 +6,11 @@ import { ENV_VALUE } from "../utils/env";
 // -----------------------------
 // 1. User Document Interface
 // -----------------------------
-import { IUserDocument } from "@servicely/types";
+import { IUserDocument } from "@aerovideo/types";
 // -----------------------------
 // 2. User Model Interface
 // -----------------------------
-import { IUserModel } from "@servicely/types";
+import { IUserModel } from "@aerovideo/types";
 
 // -----------------------------
 // 3. Schema

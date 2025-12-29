@@ -1,9 +1,7 @@
-import React from "react";
-import { BACKEND_URL } from "@/constant";
-import { IVideo } from "@servicely/types";
-import { VideoCard } from "@/components/ui/VideoCard";
-
+import React, { Suspense } from "react";
 import { Metadata } from "next";
+import { HomeVideoList } from "@/components/HomeVideoList";
+import { VideoCardSkeleton } from "@/components/ui/VideoCardSkeleton";
 
 export const metadata: Metadata = {
   title: "Home",
@@ -12,46 +10,20 @@ export const metadata: Metadata = {
 
 export const dynamic = "force-dynamic";
 
-async function getVideos() {
-  try {
-    const res = await fetch(`${BACKEND_URL}/videos/published`, {
-      cache: "no-store",
-    });
-    if (!res.ok) {
-      console.error("Failed to fetch videos:", res.statusText);
-      return [];
-    }
-    const data = await res.json();
-    // Backend now returns { videos: [...], pagination: {...} }
-    return (data.data?.videos as IVideo[]) || [];
-  } catch (error) {
-    console.error("Error fetching videos:", error);
-    return [];
-  }
-}
-
-export default async function Page() {
-  const videos = await getVideos();
-
+export default function Page() {
   return (
     <main className="container mx-auto min-h-screen px-4 py-8">
-      {videos.length === 0 ? (
-        <div className="flex h-[50vh] flex-col items-center justify-center text-center">
-          <p className="text-lg font-medium text-muted-foreground">
-            No videos found
-          </p>
-          <p className="text-sm text-muted-foreground">
-            Check back later for new content
-          </p>
-        </div>
-      ) : (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {videos.map((video: IVideo, index) => (
-            //@ts-ignore - _id might be missing in type intersection or just to be safe with strict mode if _id is not in IVideo but present in data
-            <VideoCard key={video._id || index} video={video} />
-          ))}
-        </div>
-      )}
+      <Suspense
+        fallback={
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <VideoCardSkeleton key={i} />
+            ))}
+          </div>
+        }
+      >
+        <HomeVideoList />
+      </Suspense>
     </main>
   );
 }

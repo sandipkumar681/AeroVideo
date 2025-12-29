@@ -8,8 +8,8 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import { useAppSelector } from "@/redux-toolkit/hooks";
-import { UploadVideoBody } from "@servicely/types";
-import { uploadVideoSchema } from "@servicely/schemas";
+import { UploadVideoBody } from "@aerovideo/types";
+import { uploadVideoSchema } from "@aerovideo/schemas";
 import { BACKEND_URL } from "@/constant";
 
 export default function UploadVideoForm() {

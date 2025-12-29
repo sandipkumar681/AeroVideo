@@ -1,5 +1,5 @@
 import mongoose, { model } from "mongoose";
-import { ILikeDocument, ILikeModel } from "@servicely/types";
+import { ILikeDocument, ILikeModel } from "@aerovideo/types";
 
 // -----------------------------
 // 1. Schema

@@ -1,6 +1,6 @@
 import mongoose, { model } from "mongoose";
 import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
-import { IVideoDocument, IVideoModel } from "@servicely/types";
+import { IVideoDocument, IVideoModel } from "@aerovideo/types";
 
 // -----------------------------
 // 1. Schema

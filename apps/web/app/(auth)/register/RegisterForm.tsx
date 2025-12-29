@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, ChangeEvent, FormEvent, useEffect } from "react";
-import { RegisterBody } from "@servicely/types";
-import { registerSchema } from "@servicely/schemas";
+import { RegisterBody } from "@aerovideo/types";
+import { registerSchema } from "@aerovideo/schemas";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";

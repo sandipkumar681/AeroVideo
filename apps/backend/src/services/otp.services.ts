@@ -1,5 +1,5 @@
 import { Otp } from "../models/otp.models";
-import { IOtp } from "@servicely/types";
+import { IOtp } from "@aerovideo/types";
 import { ApiError } from "../utils/apiError";
 
 export const saveOtp = async (email: string, otp: string) => {

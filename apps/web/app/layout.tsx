@@ -14,6 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://aerovideo.duckdns.org"),
   title: {
     default: "AeroVideo - Premium Video Streaming",
     template: "%s | AeroVideo",
@@ -32,7 +33,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://aerovideo.com",
+    url: "https://aerovideo.duckdns.org",
     siteName: "AeroVideo",
     title: "AeroVideo - Premium Video Streaming",
     description: "Watch and share high-quality videos on AeroVideo.",

@@ -1,6 +1,6 @@
 import mongoose, { model } from "mongoose";
 import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
-import { ICommentDocument, ICommentModel } from "@servicely/types";
+import { ICommentDocument, ICommentModel } from "@aerovideo/types";
 
 // -----------------------------
 // 1. Schema

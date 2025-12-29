@@ -2,7 +2,7 @@ import { AsyncHandler } from "../utils/asyncHandler";
 import { ApiError } from "../utils/apiError";
 import { ApiResponse } from "../utils/apiResponse";
 import { AuthenticatedRequest } from "../types/other.types";
-import { addCommentSchema, updateCommentSchema } from "@servicely/schemas";
+import { addCommentSchema, updateCommentSchema } from "@aerovideo/schemas";
 import {
   createComment,
   findCommentById,
@@ -16,7 +16,7 @@ import { findVideoById } from "../services/video.services";
 import { getSignedUrl } from "../services/upload.services";
 import mongoose from "mongoose";
 import { sanitizeComment } from "../helpers/sanitezResponse.helpers";
-import { ICommentDocument } from "@servicely/types";
+import { ICommentDocument } from "@aerovideo/types";
 
 const addComment = AsyncHandler(async (req: AuthenticatedRequest, res) => {
   const { content } = req.body;

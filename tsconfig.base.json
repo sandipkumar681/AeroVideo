@@ -15,9 +15,9 @@
 
     "baseUrl": ".",
     "paths": {
-      "@servicely/types/*": ["packages/types/src/*"],
-      "@servicely/utils/*": ["packages/utils/src/*"],
-      "@servicely/schemas/*": ["packages/schemas/src/*"]
+      "@aerovideo/types/*": ["packages/types/src/*"],
+      "@aerovideo/utils/*": ["packages/utils/src/*"],
+      "@aerovideo/schemas/*": ["packages/schemas/src/*"]
     }
   },
   "exclude": ["node_modules", "dist", "build"]
