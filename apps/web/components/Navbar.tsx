@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Search, Bell, Upload, User, Video, Menu } from "lucide-react";
+import { Search, Upload, User, Video, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MobileSidebar } from "@/components/MobileSidebar";
@@ -15,9 +15,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAppSelector, useAppDispatch } from "@/redux-toolkit/hooks";
-import { checkAuth, logout } from "@/features/LoginSlice";
+import { logout } from "@/features/LoginSlice";
 import { toggleSideBar } from "@/features/SideBarSlice";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export function Navbar() {

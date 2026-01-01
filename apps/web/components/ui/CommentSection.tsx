@@ -5,6 +5,7 @@ import { MessageSquare, Edit2, Trash2, Send } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { addComment, updateComment, deleteComment } from "@/lib/api/commentApi";
 import { useAppSelector } from "@/redux-toolkit/hooks";
+import Link from "next/link";
 
 interface Comment {
   _id: string;
@@ -65,7 +66,6 @@ export function CommentSection({
     try {
       const response = await addComment(videoId, newComment.trim());
 
-      // Add new comment to the list with current user details for immediate display
       const newCommentWithUser = {
         ...response.data,
         user: {
@@ -184,7 +184,11 @@ export function CommentSection({
         )
       ) : (
         <div className="p-4 bg-muted rounded-xl text-center text-muted-foreground">
-          Please log in to add a comment
+          Please{" "}
+          <Link href="/login" className="text-primary">
+            log in
+          </Link>{" "}
+          to add a comment
         </div>
       )}
 

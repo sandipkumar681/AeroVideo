@@ -7,16 +7,33 @@ import { Loader2, History, Play } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useAppSelector } from "@/redux-toolkit/hooks";
+import { useRouter } from "next/navigation";
 
 export default function HistoryContent() {
+  const router = useRouter();
+  const {
+    userDetails,
+    isLoading: authLoading,
+    isLoggedIn,
+  } = useAppSelector((state) => state.logInReducer);
   const [history, setHistory] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Auth guard
+  useEffect(() => {
+    if (!authLoading && !isLoggedIn && !userDetails) {
+      router.push("/login");
+    }
+  }, [authLoading, isLoggedIn, userDetails, router]);
 
   useEffect(() => {
     const fetchHistory = async () => {
       try {
-        const response = await getWatchHistory();
-        setHistory(response.data || []);
+        if (isLoggedIn) {
+          const response = await getWatchHistory();
+          setHistory(response.data || []);
+        }
       } catch (error: any) {
         console.error("Failed to fetch history:", error);
         toast.error(error.message || "Failed to load watch history");
@@ -24,10 +41,15 @@ export default function HistoryContent() {
         setLoading(false);
       }
     };
-    fetchHistory();
-  }, []);
 
-  if (loading) {
+    if (isLoggedIn) {
+      fetchHistory();
+    } else if (!authLoading) {
+      setLoading(false);
+    }
+  }, [isLoggedIn, authLoading]);
+
+  if (authLoading || loading) {
     return (
       <div className="flex h-[80vh] items-center justify-center">
         <div className="relative">

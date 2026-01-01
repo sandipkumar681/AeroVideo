@@ -16,6 +16,8 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { BACKEND_URL } from "@/constant";
 import Link from "next/link";
+import { useAppSelector } from "@/redux-toolkit/hooks";
+import { toast } from "sonner";
 
 interface VideoDetails {
   _id: string;
@@ -23,11 +25,17 @@ interface VideoDetails {
   description: string;
   thumbnail: string;
   isPublished: boolean;
+  owner: string | { _id: string };
 }
 
 export default function EditVideoContent() {
   const router = useRouter();
   const { id } = useParams();
+  const {
+    userDetails,
+    isLoading: authLoading,
+    isLoggedIn,
+  } = useAppSelector((state) => state.logInReducer);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [video, setVideo] = useState<VideoDetails | null>(null);
@@ -35,6 +43,13 @@ export default function EditVideoContent() {
   const [description, setDescription] = useState("");
   const [isPublished, setIsPublished] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Auth guard
+  useEffect(() => {
+    if (!authLoading && !isLoggedIn && !userDetails) {
+      router.push("/login");
+    }
+  }, [authLoading, isLoggedIn, userDetails, router]);
 
   useEffect(() => {
     const fetchVideoDetails = async () => {
@@ -44,6 +59,18 @@ export default function EditVideoContent() {
         });
         if (!response.ok) throw new Error("Failed to fetch video details");
         const data = await response.json();
+
+        // Check ownership
+        const ownerId =
+          typeof data.data.owner === "string"
+            ? data.data.owner
+            : data.data.owner?._id;
+
+        if (ownerId !== userDetails?._id) {
+          setError("You don't have permission to edit this video");
+          return;
+        }
+
         setVideo(data.data);
         setTitle(data.data.title);
         setDescription(data.data.description);
@@ -55,8 +82,8 @@ export default function EditVideoContent() {
       }
     };
 
-    if (id) fetchVideoDetails();
-  }, [id]);
+    if (id && isLoggedIn && userDetails) fetchVideoDetails();
+  }, [id, isLoggedIn, userDetails]);
 
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,16 +98,19 @@ export default function EditVideoContent() {
 
       if (!response.ok) throw new Error("Failed to update video");
 
+      toast.success("Video updated successfully!");
       router.push("/studio");
       router.refresh();
     } catch (err) {
-      alert(err instanceof Error ? err.message : "Failed to update video");
+      toast.error(
+        err instanceof Error ? err.message : "Failed to update video"
+      );
     } finally {
       setSaving(false);
     }
   };
 
-  if (loading) {
+  if (authLoading || loading) {
     return (
       <div className="flex h-[80vh] w-full items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
