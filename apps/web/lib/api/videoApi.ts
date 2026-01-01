@@ -31,7 +31,9 @@ export const handleResponse = async (response: Response) => {
  * Get video details by ID with populated owner information
  */
 export const getVideoDetails = async (videoId: string) => {
-  const response = await fetch(`${BACKEND_URL}/videos/${videoId}`);
+  const response = await fetch(`${BACKEND_URL}/videos/${videoId}`, {
+    credentials: "include",
+  });
   return await handleResponse(response);
 };
 
@@ -39,7 +41,9 @@ export const getVideoDetails = async (videoId: string) => {
  * Get related videos based on tags
  */
 export const getRelatedVideos = async (videoId: string) => {
-  const response = await fetch(`${BACKEND_URL}/videos/${videoId}/related`);
+  const response = await fetch(`${BACKEND_URL}/videos/${videoId}/related`, {
+    credentials: "include",
+  });
   return await handleResponse(response);
 };
 

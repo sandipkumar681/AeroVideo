@@ -3,9 +3,15 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Menu, Video } from "lucide-react";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import dynamic from "next/dynamic";
+import { VisuallyHidden } from "@/components/ui/visually-hidden";
 
 const Sidebar = dynamic(
   () => import("@/components/Sidebar").then((mod) => mod.Sidebar),
@@ -28,6 +34,9 @@ export function MobileSidebar() {
         side="left"
         className="p-0 flex flex-col w-72 text-foreground"
       >
+        <VisuallyHidden>
+          <SheetTitle>Navigation Menu</SheetTitle>
+        </VisuallyHidden>
         <div className="flex items-center gap-4 px-4 h-16 border-b shrink-0">
           <Link
             href="/"
