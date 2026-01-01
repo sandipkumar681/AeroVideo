@@ -20,16 +20,24 @@ const b2 = new B2({
 });
 let isAuthorized = false;
 let downloadUrl = "";
+let lastAuthTime = 0;
+const SIX_HOURS_IN_MS = 6 * 60 * 60 * 1000; // 6 hours in milliseconds
 
 const authorizeB2 = async (): Promise<string> => {
-  if (!isAuthorized) {
+  const now = Date.now();
+  const timeSinceLastAuth = now - lastAuthTime;
+
+  // Force re-authorization if never authorized OR 6+ hours have passed
+  if (!isAuthorized || timeSinceLastAuth >= SIX_HOURS_IN_MS) {
     try {
       const res = await b2.authorize();
       isAuthorized = true;
       downloadUrl = res.data.downloadUrl;
+      lastAuthTime = now;
       return downloadUrl;
     } catch (error: any) {
       console.error("❌ B2 authorization error:", error);
+      isAuthorized = false;
       throw new ApiError(500, "Failed to authorize with Backblaze B2.");
     }
   }
