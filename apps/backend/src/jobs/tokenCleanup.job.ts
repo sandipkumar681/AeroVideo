@@ -4,7 +4,6 @@ import {
   findUsersWithRefreshTokens,
   clearExpiredRefreshTokens,
 } from "../services/user.services";
-import { cronLogger } from "../utils/logger";
 
 /**
  * Clean up expired refresh tokens from the database
@@ -16,13 +15,11 @@ import { cronLogger } from "../utils/logger";
  */
 export const cleanupExpiredRefreshTokens = async (): Promise<void> => {
   try {
-    cronLogger.info("Starting refresh token cleanup...");
+    console.log("Starting refresh token cleanup...");
 
     // Get count of users with refresh tokens
     const usersWithTokens = await findUsersWithRefreshTokens();
-    cronLogger.info(
-      `Found ${usersWithTokens.length} users with refresh tokens`
-    );
+    console.log(`Found ${usersWithTokens.length} users with refresh tokens`);
 
     // Token verification helper
     const verifyToken = (token: string): boolean => {
@@ -39,10 +36,10 @@ export const cleanupExpiredRefreshTokens = async (): Promise<void> => {
       verifyToken
     );
 
-    cronLogger.info(
+    console.log(
       `Token cleanup completed: ${expiredCount} expired tokens removed, ${validCount} valid tokens retained`
     );
   } catch (error) {
-    cronLogger.error("Error during token cleanup:", error);
+    console.error("Error during token cleanup:", error);
   }
 };

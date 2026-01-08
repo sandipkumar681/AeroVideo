@@ -1,23 +1,22 @@
 import cron from "node-cron";
 import { cleanupExpiredRefreshTokens } from "./tokenCleanup.job";
 import { healthCheckJob } from "./healthCheck.job";
-import { cronLogger } from "../utils/logger";
 
 /**
  * Initialize and start all cron jobs
  */
 export const startCronJobs = (): void => {
-  cronLogger.info("Initializing cron jobs...");
+  console.log("Initializing cron jobs...");
 
   // Clean up expired refresh tokens daily at 2:00 AM
   // Cron format: minute hour day month weekday
   // '0 2 * * *' = At 02:00 AM every day
   cron.schedule("0 2 * * *", async () => {
-    cronLogger.info("Executing scheduled token cleanup job...");
+    console.log("Executing scheduled token cleanup job...");
     await cleanupExpiredRefreshTokens();
   });
 
-  cronLogger.info("Token cleanup job scheduled: Daily at 2:00 AM");
+  console.log("Token cleanup job scheduled: Daily at 2:00 AM");
 
   // Health check job - runs every 15 minutes
   // '*/15 * * * *' = Every 15 minutes
@@ -25,7 +24,7 @@ export const startCronJobs = (): void => {
     await healthCheckJob();
   });
 
-  cronLogger.info("Health check job scheduled: Every 15 minutes");
+  console.log("Health check job scheduled: Every 15 minutes");
 
   // Optional: Run cleanup once on startup (for testing/immediate cleanup)
   // Uncomment the line below if you want to run cleanup when server starts
@@ -37,5 +36,5 @@ export const startCronJobs = (): void => {
  */
 export const stopCronJobs = (): void => {
   cron.getTasks().forEach((task) => task.stop());
-  cronLogger.info("All cron jobs stopped");
+  console.log("All cron jobs stopped");
 };
