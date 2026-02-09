@@ -35,7 +35,7 @@ const createNewPlaylist = AsyncHandler(
     return res
       .status(201)
       .json(new ApiResponse(201, playlist, "Playlist created successfully!"));
-  }
+  },
 );
 
 const getUserPlaylists = AsyncHandler(
@@ -47,11 +47,11 @@ const getUserPlaylists = AsyncHandler(
     return res
       .status(200)
       .json(new ApiResponse(200, playlists, "Playlists fetched successfully!"));
-  }
+  },
 );
 
 const getPlaylistById = AsyncHandler(async (req: AuthenticatedRequest, res) => {
-  const { playlistId } = req.params;
+  const { playlistId } = req.params as { playlistId: string };
 
   if (!playlistId) {
     throw new ApiError(400, "Playlist ID is required!");
@@ -92,7 +92,7 @@ const getPlaylistById = AsyncHandler(async (req: AuthenticatedRequest, res) => {
         if (v.owner && v.owner.avatar)
           v.owner.avatar = await getSignedUrl(v.owner.avatar);
         return v;
-      })
+      }),
     );
   }
 
@@ -125,7 +125,7 @@ const addVideoToPlaylistController = AsyncHandler(
     if (playlist.owner.toString() !== req.user._id.toString()) {
       throw new ApiError(
         403,
-        "You are not authorized to modify this playlist!"
+        "You are not authorized to modify this playlist!",
       );
     }
 
@@ -143,15 +143,18 @@ const addVideoToPlaylistController = AsyncHandler(
         new ApiResponse(
           200,
           updatedPlaylist,
-          "Video added to playlist successfully!"
-        )
+          "Video added to playlist successfully!",
+        ),
       );
-  }
+  },
 );
 
 const removeVideoFromPlaylistController = AsyncHandler(
   async (req: AuthenticatedRequest, res) => {
-    const { playlistId, videoId } = req.params;
+    const { playlistId, videoId } = req.params as {
+      playlistId: string;
+      videoId: string;
+    };
 
     if (!playlistId || !videoId) {
       throw new ApiError(400, "Playlist ID and Video ID are required!");
@@ -173,7 +176,7 @@ const removeVideoFromPlaylistController = AsyncHandler(
     if (playlist.owner.toString() !== req.user._id.toString()) {
       throw new ApiError(
         403,
-        "You are not authorized to modify this playlist!"
+        "You are not authorized to modify this playlist!",
       );
     }
 
@@ -185,14 +188,14 @@ const removeVideoFromPlaylistController = AsyncHandler(
         new ApiResponse(
           200,
           updatedPlaylist,
-          "Video removed from playlist successfully!"
-        )
+          "Video removed from playlist successfully!",
+        ),
       );
-  }
+  },
 );
 
 const deletePlaylist = AsyncHandler(async (req: AuthenticatedRequest, res) => {
-  const { playlistId } = req.params;
+  const { playlistId } = req.params as { playlistId: string };
 
   if (!playlistId) {
     throw new ApiError(400, "Playlist ID is required!");
@@ -220,8 +223,11 @@ const deletePlaylist = AsyncHandler(async (req: AuthenticatedRequest, res) => {
 });
 
 const updatePlaylist = AsyncHandler(async (req: AuthenticatedRequest, res) => {
-  const { name, description } = req.body;
-  const { playlistId } = req.params;
+  const { name, description } = req.body as {
+    name: string;
+    description: string;
+  };
+  const { playlistId } = req.params as { playlistId: string };
 
   // Validate request body
   const { error } = updatePlaylistSchema.validate(req.body);
@@ -255,7 +261,7 @@ const updatePlaylist = AsyncHandler(async (req: AuthenticatedRequest, res) => {
   return res
     .status(200)
     .json(
-      new ApiResponse(200, updatedPlaylist, "Playlist updated successfully!")
+      new ApiResponse(200, updatedPlaylist, "Playlist updated successfully!"),
     );
 });
 

@@ -19,8 +19,8 @@ import { sanitizeComment } from "../helpers/sanitezResponse.helpers";
 import { ICommentDocument } from "@aerovideo/types";
 
 const addComment = AsyncHandler(async (req: AuthenticatedRequest, res) => {
-  const { content } = req.body;
-  const { videoId } = req.params;
+  const { content } = req.body as { content: string };
+  const { videoId } = req.params as { videoId: string };
 
   // Validate request body
   const { error } = addCommentSchema.validate(req.body);
@@ -67,14 +67,14 @@ const addComment = AsyncHandler(async (req: AuthenticatedRequest, res) => {
       new ApiResponse(
         201,
         sanitizeComment(newComment),
-        "Comment added successfully!"
-      )
+        "Comment added successfully!",
+      ),
     );
 });
 
 const editComment = AsyncHandler(async (req: AuthenticatedRequest, res) => {
-  const { commentId } = req.params;
-  const { content } = req.body;
+  const { commentId } = req.params as { commentId: string };
+  const { content } = req.body as { content: string };
 
   // Validate request body
   const { error } = updateCommentSchema.validate(req.body);
@@ -112,13 +112,13 @@ const editComment = AsyncHandler(async (req: AuthenticatedRequest, res) => {
       new ApiResponse(
         200,
         sanitizeComment(updatedComment),
-        "Comment updated successfully!"
-      )
+        "Comment updated successfully!",
+      ),
     );
 });
 
 const deleteComment = AsyncHandler(async (req: AuthenticatedRequest, res) => {
-  const { commentId } = req.params;
+  const { commentId } = req.params as { commentId: string };
 
   if (!commentId) {
     throw new ApiError(400, "Comment ID is required!");
@@ -146,7 +146,7 @@ const deleteComment = AsyncHandler(async (req: AuthenticatedRequest, res) => {
 });
 
 const getAllComments = AsyncHandler(async (req: AuthenticatedRequest, res) => {
-  const { videoId } = req.params;
+  const { videoId } = req.params as { videoId: string };
 
   if (!videoId) {
     throw new ApiError(400, "Video ID is required!");
@@ -167,7 +167,7 @@ const getAllComments = AsyncHandler(async (req: AuthenticatedRequest, res) => {
         comment.user.avatar = await getSignedUrl(comment.user.avatar);
       }
       return sanitizeComment(comment);
-    })
+    }),
   );
 
   return res
@@ -176,8 +176,8 @@ const getAllComments = AsyncHandler(async (req: AuthenticatedRequest, res) => {
       new ApiResponse(
         200,
         sanitizedComments,
-        "All comments fetched successfully!"
-      )
+        "All comments fetched successfully!",
+      ),
     );
 });
 

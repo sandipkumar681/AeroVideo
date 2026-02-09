@@ -14,7 +14,7 @@ import mongoose from "mongoose";
 import { Request, Response } from "express";
 const toggleUserSubscription = AsyncHandler(
   async (req: AuthenticatedRequest, res) => {
-    const { channelId } = req.params;
+    const { channelId } = req.params as { channelId: string };
 
     if (!channelId) {
       throw new ApiError(400, "Channel ID is required!");
@@ -40,15 +40,15 @@ const toggleUserSubscription = AsyncHandler(
           { subscribed: result.subscribed },
           `Successfully ${
             result.subscribed ? "subscribed to" : "unsubscribed from"
-          } channel!`
-        )
+          } channel!`,
+        ),
       );
-  }
+  },
 );
 
 const getUserChannelSubscribers = AsyncHandler(
   async (req: Request, res: Response) => {
-    const { channelId } = req.params;
+    const { channelId } = req.params as { channelId: string };
 
     if (!channelId) {
       throw new ApiError(400, "Channel ID is required!");
@@ -66,16 +66,16 @@ const getUserChannelSubscribers = AsyncHandler(
         new ApiResponse(
           200,
           { count: subscriberCount },
-          "Subscribers count fetched successfully!"
-        )
+          "Subscribers count fetched successfully!",
+        ),
       );
-  }
+  },
 );
 
 const getSubscribedChannels = AsyncHandler(
   async (req: AuthenticatedRequest, res) => {
     const subscriptions = await findUserSubscribedChannelsWithStats(
-      req.user._id
+      req.user._id,
     );
 
     if (subscriptions.length === 0) {
@@ -85,8 +85,8 @@ const getSubscribedChannels = AsyncHandler(
           new ApiResponse(
             200,
             [],
-            "You haven't subscribed to any channels yet!"
-          )
+            "You haven't subscribed to any channels yet!",
+          ),
         );
     }
 
@@ -97,7 +97,7 @@ const getSubscribedChannels = AsyncHandler(
           sub.channel.avatar = await getSignedUrl(sub.channel.avatar);
         }
         return sub;
-      })
+      }),
     );
 
     return res
@@ -106,10 +106,10 @@ const getSubscribedChannels = AsyncHandler(
         new ApiResponse(
           200,
           subscriptionsWithSignedUrls,
-          "Subscribed channels fetched successfully!"
-        )
+          "Subscribed channels fetched successfully!",
+        ),
       );
-  }
+  },
 );
 
 export {

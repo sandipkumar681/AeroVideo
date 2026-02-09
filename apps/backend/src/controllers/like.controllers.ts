@@ -12,7 +12,7 @@ import mongoose from "mongoose";
 
 const toggleVideoLikeController = AsyncHandler(
   async (req: AuthenticatedRequest, res) => {
-    const { videoId } = req.params;
+    const { videoId } = req.params as { videoId: string };
 
     if (!videoId) {
       throw new ApiError(400, "Video ID is required!");
@@ -36,10 +36,10 @@ const toggleVideoLikeController = AsyncHandler(
         new ApiResponse(
           200,
           result,
-          `Video ${result.liked ? "liked" : "unliked"} successfully!`
-        )
+          `Video ${result.liked ? "liked" : "unliked"} successfully!`,
+        ),
       );
-  }
+  },
 );
 
 const getLikedVideosController = AsyncHandler(
@@ -56,7 +56,7 @@ const getLikedVideosController = AsyncHandler(
           like.video.owner.avatar = await getSignedUrl(like.video.owner.avatar);
         }
         return like;
-      })
+      }),
     );
 
     return res
@@ -65,10 +65,10 @@ const getLikedVideosController = AsyncHandler(
         new ApiResponse(
           200,
           likedVideosWithSignedUrls,
-          "Liked videos fetched successfully!"
-        )
+          "Liked videos fetched successfully!",
+        ),
       );
-  }
+  },
 );
 
 export { toggleVideoLikeController, getLikedVideosController };

@@ -142,7 +142,7 @@ const uploadVideo = AsyncHandler(
 
 const getVideoById = AsyncHandler(
   async (req: AuthenticatedRequest | Request, res: Response) => {
-    const { videoId } = req.params;
+    const { videoId } = req.params as { videoId: string };
 
     if (!videoId) {
       throw new ApiError(400, "Video ID is required!");
@@ -218,7 +218,7 @@ const getVideoById = AsyncHandler(
 
 const getAllVideosForUser = AsyncHandler(
   async (req: AuthenticatedRequest | Request, res: Response) => {
-    const { userId } = req.params;
+    const { userId } = req.params as { userId: string };
 
     if (!userId) {
       throw new ApiError(400, "User ID is required!");
@@ -259,7 +259,7 @@ const getAllVideosForUser = AsyncHandler(
 );
 
 const removeVideo = AsyncHandler(async (req: AuthenticatedRequest, res) => {
-  const { videoId } = req.params;
+  const { videoId } = req.params as { videoId: string };
 
   if (!videoId) {
     throw new ApiError(400, "Video ID is required!");
@@ -320,7 +320,7 @@ const removeVideo = AsyncHandler(async (req: AuthenticatedRequest, res) => {
 
 const toggleVideoPublishStatus = AsyncHandler(
   async (req: AuthenticatedRequest, res: Response) => {
-    const { videoId } = req.params;
+    const { videoId } = req.params as { videoId: string };
 
     if (!videoId) {
       throw new ApiError(400, "Video ID is required!");
@@ -466,7 +466,7 @@ const searchVideos = AsyncHandler(async (req: Request, res: Response) => {
 });
 
 const getRelatedVideos = AsyncHandler(async (req: Request, res: Response) => {
-  const { videoId } = req.params;
+  const { videoId } = req.params as { videoId: string };
 
   if (!videoId) {
     throw new ApiError(400, "Video ID is required!");
@@ -536,7 +536,7 @@ const getRelatedVideos = AsyncHandler(async (req: Request, res: Response) => {
 
 const updateVideo = AsyncHandler(
   async (req: AuthenticatedRequest, res: Response) => {
-    const { videoId } = req.params;
+    const { videoId } = req.params as { videoId: string };
     const { title, description, isPublished, tag }: UpdateVideoBody = req.body;
 
     if (!videoId || !mongoose.isValidObjectId(videoId)) {

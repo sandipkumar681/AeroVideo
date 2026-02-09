@@ -17,7 +17,7 @@ const getChannelStats = AsyncHandler(async (req: AuthenticatedRequest, res) => {
   return res
     .status(200)
     .json(
-      new ApiResponse(200, stats, "User channel stats fetched successfully!")
+      new ApiResponse(200, stats, "User channel stats fetched successfully!"),
     );
 });
 
@@ -33,15 +33,15 @@ const getChannelVideos = AsyncHandler(
           videos,
           videos.length > 0
             ? "Channel videos fetched successfully!"
-            : "No videos uploaded yet!"
-        )
+            : "No videos uploaded yet!",
+        ),
       );
-  }
+  },
 );
 
 const getPublicChannelProfile = AsyncHandler(
   async (req: AuthenticatedRequest | Request, res: Response) => {
-    const { userName } = req.params;
+    const { userName } = req.params as { userName: string };
 
     if (!userName) {
       throw new ApiError(400, "Username is required!");
@@ -71,7 +71,7 @@ const getPublicChannelProfile = AsyncHandler(
           v.thumbnail = await getSignedUrl(v.thumbnail);
         }
         return v;
-      })
+      }),
     );
 
     // Check subscription status if user is logged in
@@ -92,10 +92,10 @@ const getPublicChannelProfile = AsyncHandler(
         new ApiResponse(
           200,
           responseData,
-          "Public channel profile fetched successfully!"
-        )
+          "Public channel profile fetched successfully!",
+        ),
       );
-  }
+  },
 );
 
 export { getChannelStats, getChannelVideos, getPublicChannelProfile };
