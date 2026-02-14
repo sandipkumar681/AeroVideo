@@ -11,6 +11,10 @@
     },
     "lint": {
       "outputs": []
+    },
+    "android": {
+      "cache": false,
+      "persistent": true
     }
   }
 }
