@@ -1,6 +1,7 @@
 import mongoose, { HydratedDocument, Model } from "mongoose";
 
 export interface IVideo {
+  _id: string | mongoose.Types.ObjectId;
   videoFile: string;
   thumbnail: string;
   title: string;

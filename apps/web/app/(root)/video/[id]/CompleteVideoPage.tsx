@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { IVideo } from "@aerovideo/types";
 import { VideoPlayer } from "@/components/ui/VideoPlayer";
 import { VideoInfo } from "@/components/ui/VideoInfo";
 import { RelatedVideos } from "@/components/ui/RelatedVideos";
@@ -8,8 +9,8 @@ import { getVideoDetails, getRelatedVideos } from "@/lib/api/videoApi";
 import { getVideoComments } from "@/lib/api/commentApi";
 
 function CompleteVideoPage({ id }: { id: string }) {
-  const [video, setVideo] = useState<any>(null);
-  const [relatedVideos, setRelatedVideos] = useState<any[]>([]);
+  const [video, setVideo] = useState<{ data: IVideo } | null>(null);
+  const [relatedVideos, setRelatedVideos] = useState<IVideo[]>([]);
   const [comments, setComments] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

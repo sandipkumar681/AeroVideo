@@ -152,7 +152,7 @@ export function VideoPlayer({ videoUrl, thumbnailUrl }: VideoPlayerProps) {
         isFullscreen &&
           "fixed inset-0 z-50 h-screen w-screen rounded-none flex items-center justify-center bg-black",
         shouldRotate &&
-          "w-[100vh] h-[100vw] rotate-90 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+          "w-[100vh] h-[100vw] rotate-90 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
       )}
       onMouseEnter={() => setShowControls(true)}
       onMouseLeave={() => setShowControls(isPlaying ? false : true)}
@@ -184,7 +184,7 @@ export function VideoPlayer({ videoUrl, thumbnailUrl }: VideoPlayerProps) {
       <div
         className={cn(
           "absolute bottom-0 left-0 right-0 bg-linear-to-t from-black/80 to-transparent p-4 transition-opacity duration-300",
-          showControls ? "opacity-100" : "opacity-0"
+          showControls ? "opacity-100" : "opacity-0",
         )}
       >
         {/* Progress Bar */}
@@ -259,7 +259,7 @@ export function VideoPlayer({ videoUrl, thumbnailUrl }: VideoPlayerProps) {
       </div>
 
       {/* Custom slider styles */}
-      <style jsx>{`
+      <style>{`
         .slider::-webkit-slider-thumb {
           appearance: none;
           width: 12px;
