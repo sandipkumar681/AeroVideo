@@ -119,7 +119,7 @@ android {
             reset()
             enable true
             universalApk false
-            include  "arm64-v8a"
+            include "arm64-v8a"
         }
     }
 

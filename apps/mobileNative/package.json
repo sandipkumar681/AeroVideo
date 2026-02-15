@@ -1,7 +1,8 @@
 {
-  "name": "mobileNative",
+  "name": "@aerovideo/mobile-native",
   "version": "0.0.1",
   "private": true,
+  "packageManager": "pnpm@10.20.0",
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
@@ -33,7 +34,9 @@
     "@react-native-community/cli-platform-android": "20.0.0",
     "@react-native-community/cli-platform-ios": "20.0.0",
     "@react-native/babel-preset": "0.83.1",
+    "@react-native/codegen": "0.83.1",
     "@react-native/eslint-config": "0.83.1",
+    "@react-native/gradle-plugin": "0.83.1",
     "@react-native/metro-config": "0.83.1",
     "@react-native/typescript-config": "0.83.1",
     "@types/jest": "^29.5.13",
