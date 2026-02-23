@@ -48,7 +48,7 @@ const authorizeB2 = async (): Promise<string> => {
 // -----------------------------
 export const uploadOnB2 = async (
   localFilePath: string,
-  folder: string = "uploads"
+  folder: string = "uploads",
 ): Promise<B2UploadResult | null> => {
   if (!localFilePath) return null;
   try {
@@ -77,7 +77,7 @@ export const uploadOnB2 = async (
     console.error("❌ B2 upload error:", error);
     throw new ApiError(
       500,
-      "Error while uploading file to B2. Please try again later."
+      "Error while uploading file to B2. Please try again later.",
     );
   }
 };
@@ -121,7 +121,7 @@ export const deleteOnB2 = async (publicUrl: string): Promise<"ok" | null> => {
     console.error("❌ B2 delete error:", error);
     throw new ApiError(
       500,
-      "Error while deleting file from B2. Please try again later."
+      "Error while deleting file from B2. Please try again later.",
     );
   }
 };
@@ -130,7 +130,7 @@ export const deleteOnB2 = async (publicUrl: string): Promise<"ok" | null> => {
 // -----------------------------
 export const getSignedUrlB2 = async (
   fileName: string,
-  durationInSeconds: number = 3600
+  durationInSeconds: number = 3600,
 ): Promise<string> => {
   try {
     const downloadUrl = await authorizeB2();
