@@ -39,12 +39,12 @@ export default function ResetPasswordForm() {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const { isLoggedIn, isLoading } = useAppSelector(
-    (state: any) => state.logInReducer
+    (state: any) => state.logInReducer,
   );
 
   useEffect(() => {
     if (!isLoading && isLoggedIn) {
-      router.push("/");
+      router.back();
     }
   }, [isLoggedIn, isLoading, router]);
 

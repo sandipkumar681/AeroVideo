@@ -38,20 +38,19 @@ export default function RegisterForm() {
   const router = useRouter();
 
   const { isLoggedIn, isLoading } = useAppSelector(
-    (state) => state.logInReducer
+    (state) => state.logInReducer,
   );
-  const redirectTo = "/";
 
   useEffect(() => {
     if (!isLoading && isLoggedIn) {
-      router.push(redirectTo);
+      router.back();
     }
-  }, [isLoggedIn, isLoading, router, redirectTo]);
+  }, [isLoggedIn, isLoading, router]);
 
   useEffect(() => {
     if (navigateToLogin) {
       const timer = setTimeout(() => {
-        router.push("/login");
+        router.back();
       }, 3000);
       return () => clearTimeout(timer);
     }
@@ -63,7 +62,7 @@ export default function RegisterForm() {
 
   const handleFileChange = (
     e: ChangeEvent<HTMLInputElement>,
-    setFile: (file: File | null) => void
+    setFile: (file: File | null) => void,
   ) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
