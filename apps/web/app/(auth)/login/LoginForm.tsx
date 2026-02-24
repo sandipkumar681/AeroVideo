@@ -30,19 +30,17 @@ export default function LoginForm() {
   const [navigateToHome, setNavigateToHome] = useState(false);
   const router = useRouter();
   const { isLoggedIn, isLoading } = useAppSelector(
-    (state) => state.logInReducer
+    (state) => state.logInReducer,
   );
-  const redirectTo = "/";
-
   useEffect(() => {
     if (!isLoading && isLoggedIn) {
-      router.push(redirectTo);
+      router.back();
     }
-  }, [isLoggedIn, isLoading, router, redirectTo]);
+  }, [isLoggedIn, isLoading, router]);
 
   useEffect(() => {
     if (navigateToHome) {
-      router.push("/");
+      router.back();
     }
   }, [navigateToHome, router]);
 
