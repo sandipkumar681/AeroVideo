@@ -16,7 +16,7 @@ import useColorTheme from '../hooks/useColorTheme';
 
 const PREDEFINED_AMOUNTS = [50, 100, 200];
 
-export default function PaymentScreen() {
+export default function PaymentScreen({ navigation }: any) {
   const [selectedAmount, setSelectedAmount] = useState<number | 'custom'>(100);
   const [customAmount, setCustomAmount] = useState<string>('');
   const [donorName, setDonorName] = useState<string>('');
@@ -95,6 +95,12 @@ export default function PaymentScreen() {
         Alert.alert(
           'Success',
           'Payment successful! Thank you for your support.',
+          [
+            {
+              text: 'OK',
+              onPress: () => navigation.goBack(),
+            },
+          ],
         );
       } catch (err: any) {
         Alert.alert(

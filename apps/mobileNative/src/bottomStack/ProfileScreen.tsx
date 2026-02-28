@@ -23,6 +23,7 @@ const ProfileScreen = ({ navigation }: any) => {
     if (isFocused) {
       const userData = MMKV.getString('user');
       if (userData) {
+        console.log(userData);
         setUser(JSON.parse(userData));
       } else {
         setUser(null);
@@ -137,6 +138,20 @@ const ProfileScreen = ({ navigation }: any) => {
       </View>
 
       <TouchableOpacity
+        style={[styles.donationButton, { backgroundColor: currentColors.tint }]}
+        onPress={() => navigation.navigate('Payment')}
+      >
+        <Text
+          style={[
+            styles.donationButtonText,
+            { color: currentColors.background },
+          ]}
+        >
+          Support Creator
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
         style={[styles.logoutButton, { borderColor: 'red' }]}
         onPress={handleLogout}
       >
@@ -215,13 +230,24 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 5,
   },
+  donationButton: {
+    padding: 15,
+    borderRadius: 8,
+    alignItems: 'center',
+    width: '100%',
+    marginTop: 'auto',
+    marginBottom: 10,
+  },
+  donationButtonText: {
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
   logoutButton: {
     padding: 15,
     borderRadius: 8,
     alignItems: 'center',
     width: '100%',
     borderWidth: 1,
-    marginTop: 'auto',
     marginBottom: 20,
   },
 });

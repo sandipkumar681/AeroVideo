@@ -13,6 +13,7 @@ import { Colors } from '../constants/theme';
 import useColorTheme from '../hooks/useColorTheme';
 import { BACKEND_URL } from '../constants/constant';
 import { MMKV } from '../other/MMKVstorage';
+import { loginSchema } from '@aerovideo/schemas';
 
 const LoginScreen = ({ navigation }: any) => {
   const theme = useColorTheme();
@@ -25,8 +26,9 @@ const LoginScreen = ({ navigation }: any) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async () => {
-    if (!email || !password) {
-      Alert.alert('Validation Error', 'Email and password are required');
+    const result = loginSchema.safeParse({ email, password });
+    if (!result.success) {
+      Alert.alert('Validation Error', result.error.issues[0].message);
       return;
     }
 

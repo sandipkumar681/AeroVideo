@@ -16,6 +16,7 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import { Colors } from '../constants/theme';
 import useColorTheme from '../hooks/useColorTheme';
 import { BACKEND_URL } from '../constants/constant';
+import { uploadVideoSchema } from '@aerovideo/schemas';
 import { MMKV } from '../other/MMKVstorage';
 import { useIsFocused } from '@react-navigation/native';
 
@@ -64,11 +65,19 @@ const UploadScreen = ({ navigation }: any) => {
   };
 
   const handleUpload = async () => {
-    if (!title || !description || !video || !thumbnail) {
-      Alert.alert(
-        'Error',
-        'Please fill all required fields and select video/thumbnail',
-      );
+    const result = uploadVideoSchema.safeParse({
+      title,
+      description,
+      isPublished,
+      tag: tags,
+    });
+    if (!result.success) {
+      Alert.alert('Validation Error', result.error.issues[0].message);
+      return;
+    }
+
+    if (!video || !thumbnail) {
+      Alert.alert('Error', 'Please select video and thumbnail');
       return;
     }
 

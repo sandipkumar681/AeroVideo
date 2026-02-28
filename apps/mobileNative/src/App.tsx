@@ -64,7 +64,6 @@ function TabNavigator() {
       <Tab.Screen name="Search" component={SearchScreen} />
       <Tab.Screen name="Upload" component={UploadScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
-      <Tab.Screen name="Payment" component={PaymentScreen} />
     </Tab.Navigator>
   );
 }
@@ -76,6 +75,7 @@ function RootStack() {
       <Stack.Screen name="Video" component={VideoScreen} />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
+      <Stack.Screen name="Payment" component={PaymentScreen} />
     </Stack.Navigator>
   );
 }

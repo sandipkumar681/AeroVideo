@@ -15,6 +15,7 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import { Colors } from '../constants/theme';
 import useColorTheme from '../hooks/useColorTheme';
 import { BACKEND_URL } from '../constants/constant';
+import { registerSchema } from '@aerovideo/schemas';
 
 const RegisterScreen = ({ navigation }: any) => {
   const theme = useColorTheme();
@@ -75,8 +76,15 @@ const RegisterScreen = ({ navigation }: any) => {
   };
 
   const handleRegister = async () => {
-    if (!fullName || !userName || !email || !password || !otp) {
-      Alert.alert('Validation Error', 'All fields are required');
+    const result = registerSchema.safeParse({
+      fullName,
+      userName,
+      email,
+      password,
+      otp,
+    });
+    if (!result.success) {
+      Alert.alert('Validation Error', result.error.issues[0].message);
       return;
     }
 
