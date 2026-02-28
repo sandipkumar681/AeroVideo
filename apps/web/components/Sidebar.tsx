@@ -4,18 +4,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import {
-  Home,
-  Compass,
-  Library,
-  History,
-  PlaySquare,
-  ThumbsUp,
-  Settings,
-  HelpCircle,
-  Flag,
-  User,
-} from "lucide-react";
+import { Home, History, PlaySquare, ThumbsUp, User, Heart } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -28,11 +17,12 @@ export function Sidebar({ className, onLinkClick }: SidebarProps) {
 
   const mainLinks = [
     { name: "Home", href: "/", icon: Home },
-    { name: "Subscriptions", href: "/subscriptions", icon: PlaySquare },
+    { name: "Support", href: "/payment", icon: Heart },
   ];
 
   const libraryLinks = [
     { name: "History", href: "/history", icon: History },
+    { name: "Subscriptions", href: "/subscriptions", icon: PlaySquare },
     { name: "Your Videos", href: "/studio", icon: PlaySquare },
     { name: "Liked Videos", href: "/liked-videos", icon: ThumbsUp },
     { name: "Profile", href: "/profile", icon: User },
@@ -42,7 +32,7 @@ export function Sidebar({ className, onLinkClick }: SidebarProps) {
     <div
       className={cn(
         "pb-12 h-full border-r bg-background text-foreground",
-        className
+        className,
       )}
     >
       <ScrollArea className="h-full py-4">
@@ -55,7 +45,7 @@ export function Sidebar({ className, onLinkClick }: SidebarProps) {
                 variant={pathname === link.href ? "secondary" : "ghost"}
                 className={cn(
                   "w-full justify-start",
-                  pathname === link.href && "font-semibold"
+                  pathname === link.href && "font-semibold",
                 )}
                 asChild
               >

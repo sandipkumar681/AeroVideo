@@ -15,6 +15,7 @@ import ProfileScreen from './bottomStack/ProfileScreen';
 import VideoScreen from './bottomStack/VideoScreen';
 import LoginScreen from './bottomStack/LoginScreen';
 import RegisterScreen from './bottomStack/RegisterScreen';
+import PaymentScreen from './other/PaymentScreen';
 import {
   FontAwesome,
   FontAwesomeIconName,
@@ -63,6 +64,7 @@ function TabNavigator() {
       <Tab.Screen name="Search" component={SearchScreen} />
       <Tab.Screen name="Upload" component={UploadScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen name="Payment" component={PaymentScreen} />
     </Tab.Navigator>
   );
 }

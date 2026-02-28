@@ -29,4 +29,8 @@ export const ENV_VALUE = {
   LOGS: {
     NODE_ENV: process.env.NODE_ENV!,
   },
+  RAZORPAY: {
+    KEY_ID: process.env.RAZORPAY_KEY_ID!,
+    KEY_SECRET: process.env.RAZORPAY_KEY_SECRET!,
+  },
 };

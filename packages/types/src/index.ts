@@ -6,3 +6,4 @@ export type * from "./like/index.js";
 export type * from "./comment/index.js";
 export type * from "./playlist/index.js";
 export type * from "./subscription/index.js";
+export type * from "./payment.js";

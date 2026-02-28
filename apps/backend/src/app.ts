@@ -10,7 +10,7 @@ app.use(
   cors({
     origin: ENV_VALUE.CORS_ORIGIN,
     credentials: true,
-  })
+  }),
 );
 
 app.use(express.json({ limit: "16kb" }));
@@ -24,6 +24,7 @@ import videoRouter from "./routes/video.routes";
 import commentRouter from "./routes/comment.routes";
 import likeRouter from "./routes/like.routes";
 import subscriptionRouter from "./routes/subscription.routes";
+import paymentRouter from "./routes/payment.routes";
 // import playlistRouter from "./routes/playlist.routes";
 import healthCheckRouter from "./routes/healthcheck.routes";
 import dashboardRouter from "./routes/dashboard.routes";
@@ -37,6 +38,7 @@ app.use("/api/v1/videos", videoRouter);
 app.use("/api/v1/comments", commentRouter);
 app.use("/api/v1/likes", likeRouter);
 app.use("/api/v1/subscriptions", subscriptionRouter);
+app.use("/api/v1/payments", paymentRouter);
 // app.use("/api/v1/playlists", playlistRouter);
 app.use("/api/v1/dashboard", dashboardRouter);
 
@@ -66,8 +68,8 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
       new ApiResponse(
         err.statusCode || 500,
         {},
-        err.message || "An error occurred"
-      )
+        err.message || "An error occurred",
+      ),
     );
 });
 
