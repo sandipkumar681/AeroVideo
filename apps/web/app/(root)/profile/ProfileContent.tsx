@@ -36,7 +36,7 @@ import {
 export default function ProfileContent() {
   const dispatch = useAppDispatch();
   const { userDetails, isLoading, isLoggedIn } = useAppSelector(
-    (state) => state.logInReducer
+    (state) => state.logInReducer,
   );
   const router = useRouter();
 
@@ -60,7 +60,7 @@ export default function ProfileContent() {
 
   const [avatarPreview, setAvatarPreview] = useState(userDetails?.avatar || "");
   const [coverPreview, setCoverPreview] = useState(
-    userDetails?.coverImage || ""
+    userDetails?.coverImage || "",
   );
 
   useEffect(() => {
@@ -127,7 +127,7 @@ export default function ProfileContent() {
       dispatch(checkAuth());
     } catch (err) {
       toast.error(
-        err instanceof Error ? err.message : "Failed to update avatar"
+        err instanceof Error ? err.message : "Failed to update avatar",
       );
     } finally {
       setLoading(false);
@@ -143,7 +143,7 @@ export default function ProfileContent() {
       dispatch(checkAuth());
     } catch (err) {
       toast.error(
-        err instanceof Error ? err.message : "Failed to update cover image"
+        err instanceof Error ? err.message : "Failed to update cover image",
       );
     } finally {
       setLoading(false);
@@ -157,10 +157,9 @@ export default function ProfileContent() {
     e.preventDefault();
     setLoading(true);
 
-    const { error: validationError } =
-      changeAccountDetailsSchema.validate(profileData);
-    if (validationError) {
-      toast.error(validationError.message);
+    const validationResult = changeAccountDetailsSchema.safeParse(profileData);
+    if (!validationResult.success) {
+      toast.error(validationResult.error.issues[0].message);
       setLoading(false);
       return;
     }
@@ -172,7 +171,7 @@ export default function ProfileContent() {
       dispatch(checkAuth()); // Refresh user data
     } catch (err) {
       toast.error(
-        err instanceof Error ? err.message : "Failed to update profile"
+        err instanceof Error ? err.message : "Failed to update profile",
       );
     } finally {
       setLoading(false);
@@ -189,10 +188,10 @@ export default function ProfileContent() {
       return;
     }
 
-    const { error: validationError } =
-      changeCurrentPasswordSchema.validate(passwordData);
-    if (validationError) {
-      toast.error(validationError.message);
+    const validationResult =
+      changeCurrentPasswordSchema.safeParse(passwordData);
+    if (!validationResult.success) {
+      toast.error(validationResult.error.issues[0].message);
       setLoading(false);
       return;
     }
@@ -204,7 +203,7 @@ export default function ProfileContent() {
       setConfirmNewPassword("");
     } catch (err) {
       toast.error(
-        err instanceof Error ? err.message : "Failed to change password"
+        err instanceof Error ? err.message : "Failed to change password",
       );
     } finally {
       setLoading(false);

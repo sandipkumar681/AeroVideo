@@ -72,11 +72,11 @@ const registerUser = AsyncHandler(async (req, res) => {
     if (coverImageLocalPath) removeFile(coverImageLocalPath);
   };
 
-  const { error } = registerSchema.validate(req.body);
+  const result = registerSchema.safeParse(req.body);
 
-  if (error) {
+  if (!result.success) {
     cleanupFiles();
-    throw new ApiError(400, error.details[0].message);
+    throw new ApiError(400, result.error.issues[0].message);
   }
 
   if (!(await verifyOtp(email, otp))) {
@@ -90,7 +90,7 @@ const registerUser = AsyncHandler(async (req, res) => {
     cleanupFiles();
     throw new ApiError(
       400,
-      "Email or Username is already taken. Please choose another one."
+      "Email or Username is already taken. Please choose another one.",
     );
   }
 
@@ -100,7 +100,7 @@ const registerUser = AsyncHandler(async (req, res) => {
   if (coverImageLocalPath) {
     const { image: uploadedCoverImage } = await uploadImage(
       coverImageLocalPath,
-      "coverImages"
+      "coverImages",
     );
     coverImageFileName = uploadedCoverImage?.fileName || "";
   }
@@ -124,10 +124,10 @@ const registerUser = AsyncHandler(async (req, res) => {
 const loginUser = AsyncHandler(async (req, res) => {
   const { email, password }: LoginBody = req.body;
 
-  const { error } = loginSchema.validate(req.body);
+  const result = loginSchema.safeParse(req.body);
 
-  if (error) {
-    throw new ApiError(400, error.details[0].message);
+  if (!result.success) {
+    throw new ApiError(400, result.error.issues[0].message);
   }
 
   const user = await findUserByEmail(email);
@@ -140,9 +140,8 @@ const loginUser = AsyncHandler(async (req, res) => {
     throw new ApiError(400, "Password is incorrect!");
   }
 
-  const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
-    user
-  );
+  const { accessToken, refreshToken } =
+    await generateAccessAndRefreshToken(user);
 
   if (!refreshToken) {
     throw new ApiError(500, "Failed to generate refresh token!");
@@ -161,8 +160,8 @@ const loginUser = AsyncHandler(async (req, res) => {
       new ApiResponse(
         200,
         { user: sanitizeUser(user), refreshToken, accessToken },
-        "User log in is successful!"
-      )
+        "User log in is successful!",
+      ),
     );
 });
 
@@ -189,7 +188,7 @@ const refreshAccessToken = AsyncHandler(async (req, res) => {
   try {
     decodedToken = jwt.verify(
       incomingRefreshToken,
-      ENV_VALUE.JWT.REFRESH_TOKEN_SECRET
+      ENV_VALUE.JWT.REFRESH_TOKEN_SECRET,
     ) as DecodedToken; //
   } catch (err) {
     throw new ApiError(401, "Invalid or expired refresh token!");
@@ -208,9 +207,8 @@ const refreshAccessToken = AsyncHandler(async (req, res) => {
     throw new ApiError(401, "Refresh Token is expired or invalid!");
   }
 
-  const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
-    user
-  );
+  const { accessToken, refreshToken } =
+    await generateAccessAndRefreshToken(user);
 
   if (!refreshToken) {
     throw new ApiError(500, "Failed to generate refresh token!");
@@ -229,18 +227,18 @@ const refreshAccessToken = AsyncHandler(async (req, res) => {
       new ApiResponse(
         200,
         { accessToken, refreshToken },
-        "Access and Refresh token updated successfully"
-      )
+        "Access and Refresh token updated successfully",
+      ),
     );
 });
 
 const changePassword = AsyncHandler(async (req: AuthenticatedRequest, res) => {
   const { oldPassword, newPassword }: changeCurrentPasswordBody = req.body;
 
-  const { error } = changeCurrentPasswordSchema.validate(req.body);
+  const result = changeCurrentPasswordSchema.safeParse(req.body);
 
-  if (error) {
-    throw new ApiError(400, error.details[0].message);
+  if (!result.success) {
+    throw new ApiError(400, result.error.issues[0].message);
   }
 
   if (oldPassword === newPassword) {
@@ -289,10 +287,10 @@ const changeAccountDetails = AsyncHandler(
   async (req: AuthenticatedRequest, res) => {
     const { userName, fullName }: changeAccountDetailsBody = req.body;
 
-    const { error } = changeAccountDetailsSchema.validate(req.body);
+    const result = changeAccountDetailsSchema.safeParse(req.body);
 
-    if (error) {
-      throw new ApiError(400, error.details[0].message);
+    if (!result.success) {
+      throw new ApiError(400, result.error.issues[0].message);
     }
 
     const user = await findUserWithId(req.user._id);
@@ -311,13 +309,13 @@ const changeAccountDetails = AsyncHandler(
     await findAndUpdateUserWithId(
       req.user._id,
       { $set: { userName, fullName } },
-      { new: true } as mongoose.QueryOptions
+      { new: true } as mongoose.QueryOptions,
     );
 
     return res
       .status(200)
       .json(new ApiResponse(200, {}, "Details updated successfully"));
-  }
+  },
 );
 
 const updateAvatar = AsyncHandler(async (req: AuthenticatedRequest, res) => {
@@ -356,7 +354,7 @@ const updateCoverImage = AsyncHandler(
 
     const { image: coverImage } = await uploadImage(
       coverImageLocalPath,
-      "coverImages"
+      "coverImages",
     );
 
     const user = await findUserWithId(req.user._id);
@@ -376,7 +374,7 @@ const updateCoverImage = AsyncHandler(
     return res
       .status(200)
       .json(new ApiResponse(200, {}, "Cover image updated successfully!"));
-  }
+  },
 );
 
 const getWatchHistory = AsyncHandler(async (req: AuthenticatedRequest, res) => {
@@ -398,7 +396,7 @@ const getWatchHistory = AsyncHandler(async (req: AuthenticatedRequest, res) => {
         video.owner.avatar = await getSignedUrl(video.owner.avatar);
       }
       return video;
-    })
+    }),
   );
 
   return res
@@ -412,7 +410,7 @@ const getLikedVideos = AsyncHandler(async (req: AuthenticatedRequest, res) => {
   return res
     .status(200)
     .json(
-      new ApiResponse(200, likedVideos, "Liked videos fetched successfully!")
+      new ApiResponse(200, likedVideos, "Liked videos fetched successfully!"),
     );
 });
 
@@ -437,10 +435,10 @@ const doesUserExists = AsyncHandler(async (req, res) => {
 const resetPassword = AsyncHandler(async (req, res) => {
   const { email, otp, newPassword }: resetPasswordBody = req.body;
 
-  const { error } = resetPasswordSchema.validate(req.body);
+  const result = resetPasswordSchema.safeParse(req.body);
 
-  if (error) {
-    throw new ApiError(400, error.details[0].message);
+  if (!result.success) {
+    throw new ApiError(400, result.error.issues[0].message);
   }
 
   if (!(await verifyOtp(email, otp))) {

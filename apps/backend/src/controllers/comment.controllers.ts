@@ -23,9 +23,9 @@ const addComment = AsyncHandler(async (req: AuthenticatedRequest, res) => {
   const { videoId } = req.params as { videoId: string };
 
   // Validate request body
-  const { error } = addCommentSchema.validate(req.body);
-  if (error) {
-    throw new ApiError(400, error.details[0].message);
+  const result = addCommentSchema.safeParse(req.body);
+  if (!result.success) {
+    throw new ApiError(400, result.error.issues[0].message);
   }
 
   if (!videoId) {
@@ -77,9 +77,9 @@ const editComment = AsyncHandler(async (req: AuthenticatedRequest, res) => {
   const { content } = req.body as { content: string };
 
   // Validate request body
-  const { error } = updateCommentSchema.validate(req.body);
-  if (error) {
-    throw new ApiError(400, error.details[0].message);
+  const result = updateCommentSchema.safeParse(req.body);
+  if (!result.success) {
+    throw new ApiError(400, result.error.issues[0].message);
   }
 
   if (!commentId) {

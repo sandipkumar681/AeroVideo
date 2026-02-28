@@ -1,11 +1,25 @@
-import Joi from "joi";
+import { z } from "zod";
 
-export const createPlaylistSchema = Joi.object({
-  name: Joi.string().min(3).max(100).required(),
-  description: Joi.string().min(10).max(500).required(),
+export const playlistNameSchema = z
+  .string()
+  .min(3, { message: "title should be atleast 3 characters long" })
+  .max(100, { message: "title should not be more than 100" });
+
+export const playlistDescriptionSchema = z
+  .string()
+  .min(10, { message: "description should be atleast 10 characters long" })
+  .max(500, { message: "description should not be more than 500" });
+
+export const createPlaylistSchema = z.object({
+  name: playlistNameSchema,
+  description: playlistDescriptionSchema,
 });
 
-export const updatePlaylistSchema = Joi.object({
-  name: Joi.string().min(3).max(100).optional(),
-  description: Joi.string().min(10).max(500).optional(),
-}).min(1); // At least one field must be provided
+export const updatePlaylistSchema = z
+  .object({
+    name: playlistNameSchema.optional(),
+    description: playlistDescriptionSchema.optional(),
+  })
+  .refine((data) => data.name !== undefined || data.description !== undefined, {
+    message: "At least one field must be provided",
+  });

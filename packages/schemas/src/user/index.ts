@@ -1,30 +1,48 @@
-import Joi from "joi";
+import { z } from "zod";
 
-export const registerSchema = Joi.object({
-  fullName: Joi.string().min(3).max(30).required(),
-  userName: Joi.string().min(3).max(30).required(),
-  email: Joi.string().email().required(),
-  password: Joi.string().min(6).required(),
-  otp: Joi.string().required(),
+export const fullNameSchema = z
+  .string()
+  .min(3, { message: "fullName should be atleast 3 characters long" })
+  .max(30, { message: "fullName should not be more than 30" });
+
+export const userNameSchema = z
+  .string()
+  .min(3, { message: "userName should be atleast 3 characters long" })
+  .max(30, { message: "userName should not be more than 30" });
+
+export const emailSchema = z.string().email();
+
+export const passwordSchema = z
+  .string()
+  .min(6, { message: "password should be atleast 6 characters long" });
+
+export const otpSchema = z.string();
+
+export const registerSchema = z.object({
+  fullName: fullNameSchema,
+  userName: userNameSchema,
+  email: emailSchema,
+  password: passwordSchema,
+  otp: otpSchema,
 });
 
-export const loginSchema = Joi.object({
-  email: Joi.string().email().required(),
-  password: Joi.string().min(6).required(),
+export const loginSchema = z.object({
+  email: emailSchema,
+  password: passwordSchema,
 });
 
-export const changeCurrentPasswordSchema = Joi.object({
-  oldPassword: Joi.string().min(6).required(),
-  newPassword: Joi.string().min(6).required(),
+export const changeCurrentPasswordSchema = z.object({
+  oldPassword: passwordSchema,
+  newPassword: passwordSchema,
 });
 
-export const changeAccountDetailsSchema = Joi.object({
-  fullName: Joi.string().min(3).max(30).required(),
-  userName: Joi.string().min(3).max(30).required(),
+export const changeAccountDetailsSchema = z.object({
+  fullName: fullNameSchema,
+  userName: userNameSchema,
 });
 
-export const resetPasswordSchema = Joi.object({
-  email: Joi.string().email().required(),
-  otp: Joi.string().required(),
-  newPassword: Joi.string().min(6).required(),
+export const resetPasswordSchema = z.object({
+  email: emailSchema,
+  otp: otpSchema,
+  newPassword: passwordSchema,
 });

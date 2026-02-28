@@ -27,7 +27,7 @@ export default function UploadVideoForm() {
   const router = useRouter();
 
   const { isLoggedIn, isLoading } = useAppSelector(
-    (state) => state.logInReducer
+    (state) => state.logInReducer,
   );
 
   // Redirect if not logged in (though middleware/layout might handle this)
@@ -36,7 +36,7 @@ export default function UploadVideoForm() {
   }
 
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -48,7 +48,7 @@ export default function UploadVideoForm() {
 
   const handleFileChange = (
     e: ChangeEvent<HTMLInputElement>,
-    setFile: (file: File | null) => void
+    setFile: (file: File | null) => void,
   ) => {
     if (e.target.files && e.target.files[0]) {
       setFile(e.target.files[0]);
@@ -57,9 +57,9 @@ export default function UploadVideoForm() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const { error } = uploadVideoSchema.validate(formData);
-    if (error) {
-      setError(error.message);
+    const validationResult = uploadVideoSchema.safeParse(formData);
+    if (!validationResult.success) {
+      setError(validationResult.error.issues[0].message);
       setLoading(false);
       return;
     }

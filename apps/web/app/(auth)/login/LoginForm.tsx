@@ -52,9 +52,9 @@ export default function LoginForm() {
     e.preventDefault();
     setLoading(true);
 
-    const { error: validationError } = loginSchema.validate(formData);
-    if (validationError) {
-      toast.error(validationError.message);
+    const validationResult = loginSchema.safeParse(formData);
+    if (!validationResult.success) {
+      toast.error(validationResult.error.issues[0].message);
       setLoading(false);
       return;
     }

@@ -55,9 +55,9 @@ const uploadVideo = AsyncHandler(
     const { title, description, isPublished, tag }: UploadVideoBody = req.body;
 
     // Validate request body
-    const { error } = uploadVideoSchema.validate(req.body);
-    if (error) {
-      throw new ApiError(400, error.details[0].message);
+    const result = uploadVideoSchema.safeParse(req.body);
+    if (!result.success) {
+      throw new ApiError(400, result.error.issues[0].message);
     }
 
     const files = req.files as {
@@ -101,7 +101,7 @@ const uploadVideo = AsyncHandler(
     // Upload video and thumbnail
     const { video: videoFile } = await uploadVideoService(
       videoLocalPath,
-      "videos"
+      "videos",
     );
     if (!videoFile) {
       cleanupFiles();
@@ -110,7 +110,7 @@ const uploadVideo = AsyncHandler(
 
     const { image: thumbnail } = await uploadImage(
       thumbnailLocalPath,
-      "thumbnails"
+      "thumbnails",
     );
     if (!thumbnail) {
       if (videoFile.fileName) {
@@ -137,7 +137,7 @@ const uploadVideo = AsyncHandler(
     return res
       .status(201)
       .json(new ApiResponse(201, {}, "Video uploaded successfully!"));
-  }
+  },
 );
 
 const getVideoById = AsyncHandler(
@@ -213,7 +213,7 @@ const getVideoById = AsyncHandler(
     return res
       .status(200)
       .json(new ApiResponse(200, videoObj, "Video fetched successfully!"));
-  }
+  },
 );
 
 const getAllVideosForUser = AsyncHandler(
@@ -243,7 +243,7 @@ const getAllVideosForUser = AsyncHandler(
 
     const videosWithSignedUrls = await getVideosWithSignedUrls(
       videos,
-      isOwner as boolean
+      isOwner as boolean,
     );
 
     return res
@@ -252,10 +252,10 @@ const getAllVideosForUser = AsyncHandler(
         new ApiResponse(
           200,
           videosWithSignedUrls,
-          `Found ${videosWithSignedUrls.length} video(s) for this user`
-        )
+          `Found ${videosWithSignedUrls.length} video(s) for this user`,
+        ),
       );
-  }
+  },
 );
 
 const removeVideo = AsyncHandler(async (req: AuthenticatedRequest, res) => {
@@ -351,23 +351,23 @@ const toggleVideoPublishStatus = AsyncHandler(
           updatedVideo,
           `Video ${
             updatedVideo?.isPublished ? "published" : "unpublished"
-          } successfully!`
-        )
+          } successfully!`,
+        ),
       );
-  }
+  },
 );
 
 const getPublishedVideos = AsyncHandler(async (req: Request, res: Response) => {
   const { page, limit }: PaginationQuery = req.query;
 
   // Validate query parameters
-  const { error, value } = paginationSchema.validate(req.query);
-  if (error) {
-    throw new ApiError(400, error.details[0].message);
+  const result = paginationSchema.safeParse(req.query);
+  if (!result.success) {
+    throw new ApiError(400, result.error.issues[0].message);
   }
 
-  const validatedPage: number = value.page || 1;
-  const validatedLimit: number = value.limit || 10;
+  const validatedPage: number = result.data.page || 1;
+  const validatedLimit: number = result.data.limit || 10;
 
   const options: mongoose.QueryOptions = {
     sort: { createdAt: -1 },
@@ -383,8 +383,8 @@ const getPublishedVideos = AsyncHandler(async (req: Request, res: Response) => {
       video.populate({
         path: "owner",
         select: "userName fullName avatar",
-      })
-    )
+      }),
+    ),
   );
 
   // Generate signed URLs for videoFile and thumbnail using service utility
@@ -401,8 +401,8 @@ const getPublishedVideos = AsyncHandler(async (req: Request, res: Response) => {
           total: videosWithSignedUrls.length,
         },
       },
-      `Found ${videosWithSignedUrls.length} published video(s)`
-    )
+      `Found ${videosWithSignedUrls.length} published video(s)`,
+    ),
   );
 });
 
@@ -410,14 +410,14 @@ const searchVideos = AsyncHandler(async (req: Request, res: Response) => {
   const { query, page, limit }: SearchVideoQuery = req.query as any;
 
   // Validate query parameters
-  const { error, value } = searchVideoSchema.validate(req.query);
-  if (error) {
-    throw new ApiError(400, error.details[0].message);
+  const result = searchVideoSchema.safeParse(req.query);
+  if (!result.success) {
+    throw new ApiError(400, result.error.issues[0].message);
   }
 
-  const validatedQuery: string = value.query;
-  const validatedPage: number = value.page || 1;
-  const validatedLimit: number = value.limit || 10;
+  const validatedQuery: string = result.data.query;
+  const validatedPage: number = result.data.page || 1;
+  const validatedLimit: number = result.data.limit || 10;
 
   const searchFilter: Record<string, any> = {
     isPublished: true,
@@ -448,8 +448,8 @@ const searchVideos = AsyncHandler(async (req: Request, res: Response) => {
       video.populate({
         path: "owner",
         select: "userName fullName avatar",
-      })
-    )
+      }),
+    ),
   );
 
   const videosWithSignedUrls = await getVideosWithSignedUrls(videos);
@@ -460,8 +460,8 @@ const searchVideos = AsyncHandler(async (req: Request, res: Response) => {
       new ApiResponse(
         200,
         videosWithSignedUrls,
-        `Found ${videosWithSignedUrls.length} video(s)`
-      )
+        `Found ${videosWithSignedUrls.length} video(s)`,
+      ),
     );
 });
 
@@ -514,14 +514,13 @@ const getRelatedVideos = AsyncHandler(async (req: Request, res: Response) => {
       video.populate({
         path: "owner",
         select: "userName fullName avatar",
-      })
-    )
+      }),
+    ),
   );
 
   // Generate signed URLs for related videos using service utility
-  const relatedVideosWithSignedUrls = await getVideosWithSignedUrls(
-    relatedVideos
-  );
+  const relatedVideosWithSignedUrls =
+    await getVideosWithSignedUrls(relatedVideos);
 
   return res
     .status(200)
@@ -529,8 +528,8 @@ const getRelatedVideos = AsyncHandler(async (req: Request, res: Response) => {
       new ApiResponse(
         200,
         relatedVideosWithSignedUrls,
-        `Found ${relatedVideosWithSignedUrls.length} related video(s)`
-      )
+        `Found ${relatedVideosWithSignedUrls.length} related video(s)`,
+      ),
     );
 });
 
@@ -544,9 +543,9 @@ const updateVideo = AsyncHandler(
     }
 
     // Validate request body
-    const { error } = updateVideoSchema.validate(req.body);
-    if (error) {
-      throw new ApiError(400, error.details[0].message);
+    const result = updateVideoSchema.safeParse(req.body);
+    if (!result.success) {
+      throw new ApiError(400, result.error.issues[0].message);
     }
 
     const video = await findVideoById(videoId);
@@ -570,7 +569,7 @@ const updateVideo = AsyncHandler(
     return res
       .status(200)
       .json(new ApiResponse(200, updatedVideo, "Video updated successfully!"));
-  }
+  },
 );
 
 export {

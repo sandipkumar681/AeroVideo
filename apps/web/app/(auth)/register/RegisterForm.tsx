@@ -110,9 +110,9 @@ export default function RegisterForm() {
     setLoading(true);
 
     // Validation
-    const { error: validationError } = registerSchema.validate(formData);
-    if (validationError) {
-      toast.error(validationError.message);
+    const validationResult = registerSchema.safeParse(formData);
+    if (!validationResult.success) {
+      toast.error(validationResult.error.issues[0].message);
       setLoading(false);
       return;
     }

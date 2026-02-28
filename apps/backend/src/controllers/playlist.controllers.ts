@@ -21,9 +21,9 @@ const createNewPlaylist = AsyncHandler(
     const { name, description } = req.body;
 
     // Validate request body
-    const { error } = createPlaylistSchema.validate(req.body);
-    if (error) {
-      throw new ApiError(400, error.details[0].message);
+    const result = createPlaylistSchema.safeParse(req.body);
+    if (!result.success) {
+      throw new ApiError(400, result.error.issues[0].message);
     }
 
     const playlist = await createPlaylist({
@@ -230,9 +230,9 @@ const updatePlaylist = AsyncHandler(async (req: AuthenticatedRequest, res) => {
   const { playlistId } = req.params as { playlistId: string };
 
   // Validate request body
-  const { error } = updatePlaylistSchema.validate(req.body);
-  if (error) {
-    throw new ApiError(400, error.details[0].message);
+  const result = updatePlaylistSchema.safeParse(req.body);
+  if (!result.success) {
+    throw new ApiError(400, result.error.issues[0].message);
   }
 
   if (!playlistId) {
