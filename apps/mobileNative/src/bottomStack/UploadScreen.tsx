@@ -15,7 +15,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { Colors } from '../constants/theme';
 import useColorTheme from '../hooks/useColorTheme';
-import { API_BASE_URL } from '../constants/constant';
+import { BACKEND_URL } from '../constants/constant';
 import { MMKV } from '../other/MMKVstorage';
 import { useIsFocused } from '@react-navigation/native';
 
@@ -94,7 +94,7 @@ const UploadScreen = ({ navigation }: any) => {
 
       const token = MMKV.getString('accessToken');
 
-      const response = await fetch(`${API_BASE_URL}/videos/upload-video`, {
+      const response = await fetch(`${BACKEND_URL}/videos/upload-video`, {
         method: 'POST',
         headers: {
           'Content-Type': 'multipart/form-data',

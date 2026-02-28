@@ -11,7 +11,7 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors } from '../constants/theme';
 import useColorTheme from '../hooks/useColorTheme';
-import { API_BASE_URL } from '../constants/constant';
+import { BACKEND_URL } from '../constants/constant';
 import VideoCard from '../components/VideoCard';
 import { IVideo } from '@aerovideo/types';
 import FontAwesome from '@react-native-vector-icons/fontawesome';
@@ -45,7 +45,7 @@ const SearchScreen = ({ navigation }: any) => {
       setLoading(true);
       setHasSearched(true);
       const response = await fetch(
-        `${API_BASE_URL}/videos/search?query=${encodeURIComponent(
+        `${BACKEND_URL}/videos/search?query=${encodeURIComponent(
           query,
         )}&page=1&limit=10`,
       );

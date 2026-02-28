@@ -12,7 +12,7 @@ import { Colors } from '../constants/theme';
 import useColorTheme from '../hooks/useColorTheme';
 import VideoCard from '../components/VideoCard';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { API_BASE_URL } from '../constants/constant';
+import { BACKEND_URL } from '../constants/constant';
 
 const HomeScreen = ({ navigation }: any) => {
   const theme = useColorTheme();
@@ -27,7 +27,7 @@ const HomeScreen = ({ navigation }: any) => {
   const fetchVideos = async () => {
     try {
       setError(null);
-      const response = await fetch(`${API_BASE_URL}/videos/published`);
+      const response = await fetch(`${BACKEND_URL}/videos/published`);
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);

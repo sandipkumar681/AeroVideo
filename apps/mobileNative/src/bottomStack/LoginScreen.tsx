@@ -11,7 +11,7 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors } from '../constants/theme';
 import useColorTheme from '../hooks/useColorTheme';
-import { API_BASE_URL } from '../constants/constant';
+import { BACKEND_URL } from '../constants/constant';
 import { MMKV } from '../other/MMKVstorage';
 
 const LoginScreen = ({ navigation }: any) => {
@@ -32,7 +32,7 @@ const LoginScreen = ({ navigation }: any) => {
 
     try {
       setLoading(true);
-      const response = await fetch(`${API_BASE_URL}/users/login`, {
+      const response = await fetch(`${BACKEND_URL}/users/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

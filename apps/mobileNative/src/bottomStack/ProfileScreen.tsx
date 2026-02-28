@@ -11,7 +11,7 @@ import { useIsFocused } from '@react-navigation/native';
 import { Colors } from '../constants/theme';
 import useColorTheme from '../hooks/useColorTheme';
 import { MMKV } from '../other/MMKVstorage';
-import { API_BASE_URL } from '../constants/constant';
+import { BACKEND_URL } from '../constants/constant';
 
 const ProfileScreen = ({ navigation }: any) => {
   const theme = useColorTheme();
@@ -37,7 +37,7 @@ const ProfileScreen = ({ navigation }: any) => {
         text: 'Logout',
         onPress: async () => {
           try {
-            await fetch(`${API_BASE_URL}/users/logout`, {
+            await fetch(`${BACKEND_URL}/users/logout`, {
               method: 'GET',
             });
           } catch (error) {

@@ -14,7 +14,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { Colors } from '../constants/theme';
 import useColorTheme from '../hooks/useColorTheme';
-import { API_BASE_URL } from '../constants/constant';
+import { BACKEND_URL } from '../constants/constant';
 
 const RegisterScreen = ({ navigation }: any) => {
   const theme = useColorTheme();
@@ -41,7 +41,7 @@ const RegisterScreen = ({ navigation }: any) => {
 
     try {
       setOtpLoading(true);
-      const response = await fetch(`${API_BASE_URL}/send-email`, {
+      const response = await fetch(`${BACKEND_URL}/send-email`, {
         // Assuming send-email endpoint based on userApi.ts
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -108,7 +108,7 @@ const RegisterScreen = ({ navigation }: any) => {
         });
       }
 
-      const response = await fetch(`${API_BASE_URL}/users/register`, {
+      const response = await fetch(`${BACKEND_URL}/users/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'multipart/form-data',

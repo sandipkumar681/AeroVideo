@@ -15,7 +15,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { IVideo } from '@aerovideo/types';
 import { Colors } from '../constants/theme';
 import useColorTheme from '../hooks/useColorTheme';
-import { API_BASE_URL } from '../constants/constant';
+import { BACKEND_URL } from '../constants/constant';
 import VideoCard from '../components/VideoCard';
 
 const VideoScreen = ({ route, navigation }: any) => {
@@ -34,7 +34,7 @@ const VideoScreen = ({ route, navigation }: any) => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const videoRes = await fetch(`${API_BASE_URL}/videos/${videoId}`);
+        const videoRes = await fetch(`${BACKEND_URL}/videos/${videoId}`);
         const videoData = await videoRes.json();
 
         if (videoData.success) {
@@ -42,7 +42,7 @@ const VideoScreen = ({ route, navigation }: any) => {
         }
 
         const relatedRes = await fetch(
-          `${API_BASE_URL}/videos/${videoId}/related`,
+          `${BACKEND_URL}/videos/${videoId}/related`,
         );
         const relatedData = await relatedRes.json();
         if (relatedData.success) {
@@ -50,7 +50,7 @@ const VideoScreen = ({ route, navigation }: any) => {
         }
 
         const commentsRes = await fetch(
-          `${API_BASE_URL}/comments/all/${videoId}`,
+          `${BACKEND_URL}/comments/all/${videoId}`,
         );
         const commentsData = await commentsRes.json();
         if (commentsData.success) {
