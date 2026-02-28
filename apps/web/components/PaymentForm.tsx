@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { BACKEND_URL } from "@/constant";
+import { BACKEND_URL, RAZORPAY_KEY_ID } from "@/constant";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
@@ -85,7 +85,7 @@ export default function PaymentForm() {
 
       // 2. Open Razorpay Checkout
       const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        key: RAZORPAY_KEY_ID,
         amount: orderData.amount,
         currency: orderData.currency,
         name: "AeroVideo Support",
