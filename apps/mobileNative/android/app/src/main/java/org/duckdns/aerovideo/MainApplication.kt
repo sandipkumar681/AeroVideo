@@ -1,4 +1,4 @@
-package com.mobilenative
+package org.duckdns.aerovideo
 
 import android.app.Application
 import com.facebook.react.PackageList

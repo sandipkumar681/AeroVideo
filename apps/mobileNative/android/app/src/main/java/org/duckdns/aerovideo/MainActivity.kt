@@ -1,4 +1,4 @@
-package com.mobilenative
+package org.duckdns.aerovideo
 
 import android.os.Bundle
 import com.swmansion.rnscreens.fragment.restoration.RNScreensFragmentFactory

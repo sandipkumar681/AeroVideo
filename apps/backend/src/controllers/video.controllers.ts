@@ -49,6 +49,7 @@ import {
 import { sanitizeVideo } from "../helpers/sanitezResponse.helpers";
 import { addToWatchHistory } from "../services/user.services";
 import { getVideoDuration } from "../utils/getVideoDuration";
+import { redisClient } from "../dbs/redis";
 
 const uploadVideo = AsyncHandler(
   async (req: AuthenticatedRequest, res: Response) => {
@@ -369,6 +370,15 @@ const getPublishedVideos = AsyncHandler(async (req: Request, res: Response) => {
   const validatedPage: number = result.data.page || 1;
   const validatedLimit: number = result.data.limit || 10;
 
+  const cacheKey = `published_videos:page_${validatedPage}:limit_${validatedLimit}`;
+
+  if (redisClient.isReady) {
+    const cachedData = await redisClient.get(cacheKey);
+    if (cachedData) {
+      return res.status(200).json(JSON.parse(cachedData));
+    }
+  }
+
   const options: mongoose.QueryOptions = {
     sort: { createdAt: -1 },
     skip: (validatedPage - 1) * validatedLimit,
@@ -390,20 +400,24 @@ const getPublishedVideos = AsyncHandler(async (req: Request, res: Response) => {
   // Generate signed URLs for videoFile and thumbnail using service utility
   const videosWithSignedUrls = await getVideosWithSignedUrls(videos);
 
-  return res.status(200).json(
-    new ApiResponse(
-      200,
-      {
-        videos: videosWithSignedUrls,
-        pagination: {
-          page: validatedPage,
-          limit: validatedLimit,
-          total: videosWithSignedUrls.length,
-        },
+  const responseData = new ApiResponse(
+    200,
+    {
+      videos: videosWithSignedUrls,
+      pagination: {
+        page: validatedPage,
+        limit: validatedLimit,
+        total: videosWithSignedUrls.length,
       },
-      `Found ${videosWithSignedUrls.length} published video(s)`,
-    ),
+    },
+    `Found ${videosWithSignedUrls.length} published video(s)`,
   );
+
+  if (redisClient.isReady) {
+    await redisClient.setEx(cacheKey, 300, JSON.stringify(responseData)); // Cache for 5 minutes
+  }
+
+  return res.status(200).json(responseData);
 });
 
 const searchVideos = AsyncHandler(async (req: Request, res: Response) => {

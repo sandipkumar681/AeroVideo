@@ -33,4 +33,7 @@ export const ENV_VALUE = {
     KEY_ID: process.env.RAZORPAY_KEY_ID!,
     KEY_SECRET: process.env.RAZORPAY_KEY_SECRET!,
   },
+  REDIS: {
+    URL: process.env.REDIS_URL!,
+  },
 };

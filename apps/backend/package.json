@@ -26,7 +26,8 @@
     "multer": "^2.0.2",
     "node-cron": "^4.2.1",
     "nodemailer": "^8.0.1",
-    "razorpay": "^2.9.6"
+    "razorpay": "^2.9.6",
+    "redis": "^5.11.0"
   },
   "devDependencies": {
     "@types/backblaze-b2": "^1.5.6",
