@@ -1,11 +1,11 @@
 {
   "name": "aerovideo",
   "version": "1.0.0",
-  "packageManager": "pnpm@10.20.0",
+  "packageManager": "pnpm@10.33.0",
   "devDependencies": {
-    "eslint": "^9.39.3",
-    "turbo": "^2.8.10",
-    "typescript": "^5.9.3"
+    "eslint": "^10.1.0",
+    "turbo": "^2.9.3",
+    "typescript": "^6.0.2"
   },
   "scripts": {
     "build": "turbo run build",
@@ -13,7 +13,7 @@
     "lint": "turbo run lint"
   },
   "dependencies": {
-    "mongoose": "^9.2.1",
+    "mongoose": "^9.3.3",
     "zod": "^4.3.6"
   }
 }
