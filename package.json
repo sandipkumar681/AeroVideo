@@ -8,8 +8,11 @@
     "typescript": "^6.0.2"
   },
   "scripts": {
-    "build": "turbo run build",
-    "dev": "turbo run dev",
+    "dev:frontend": "pnpm --filter @aerovideo/web dev",
+    "dev:backend": "pnpm --filter @aerovideo/backend dev",
+    "mobile:start": "pnpm --filter @aerovideo/mobile-native start",
+    "mobile:android": "pnpm --filter @aerovideo/mobile-native android",
+    "mobile:ios": "pnpm --filter @aerovideo/mobile-native ios",
     "lint": "turbo run lint"
   },
   "dependencies": {

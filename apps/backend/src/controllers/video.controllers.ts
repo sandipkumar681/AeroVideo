@@ -414,7 +414,7 @@ const getPublishedVideos = AsyncHandler(async (req: Request, res: Response) => {
   );
 
   if (redisClient.isReady) {
-    await redisClient.setEx(cacheKey, 300, JSON.stringify(responseData)); // Cache for 5 minutes
+    await redisClient.setEx(cacheKey, 3600, JSON.stringify(responseData));
   }
 
   return res.status(200).json(responseData);
